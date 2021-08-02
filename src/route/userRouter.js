@@ -1,8 +1,12 @@
-const express = require('express')
+const express = require('express');
 // const JWT = require('jsonwebtoken')
-const { verifyUser, handlePassword, loginMiddleware } = require('../middleware/user_middeware')
-const userRouter = express.Router()
-const { create, login } = require('../controller/user_controller')
+const {
+  verifyUser,
+  handlePassword,
+  loginMiddleware
+} = require('../middleware/user_middeware');
+const userRouter = express.Router();
+const { create, login, avatarInfo } = require('../controller/user_controller');
 /* const SERCET_KYE = 'jl123456'
 //秘钥发布
 userRouter.post('/test', (req, res, next) => {
@@ -27,14 +31,11 @@ userRouter.get('/test', (req, res, next) => {
     }
 })
  */
-userRouter.use('/login', loginMiddleware)
-userRouter.post('/login', login)
+userRouter.use('/login', loginMiddleware);
+userRouter.post('/login', login);
+userRouter.get('/:userId/avatar', avatarInfo);
+userRouter.use('/register', verifyUser);
+userRouter.use('/register', handlePassword);
+userRouter.post('/register', create);
 
-userRouter.use('/register', verifyUser)
-userRouter.use('/register', handlePassword)
-userRouter.post('/register', create)
-
-
-
-
-module.exports = userRouter
+module.exports = userRouter;

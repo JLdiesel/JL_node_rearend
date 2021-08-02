@@ -1,13 +1,10 @@
-const express = require('express')
-const { create,getTagList } = require('../controller/tag_controller.js')
+const express = require('express');
+const { create, getTagList } = require('../controller/tag_controller.js');
 // const {verifyAuth}=require('../middleware/auth_middleware')
-const tagRouter = express.Router()
+const tagRouter = express.Router();
 
-tagRouter.get('/',getTagList)
+tagRouter.get('/', getTagList);
 // tagRouter.use('/',verifyAuth)
-tagRouter.post('/',create)
+tagRouter.post('/', create);
 
-
-
-
-module.exports=tagRouter
+module.exports = tagRouter;

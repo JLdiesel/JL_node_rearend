@@ -10,5 +10,6 @@ module.exports = {
     MYSQL_DATABASE,
     MYSQL_USER,
     MYSQL_PASSWORD,
-    SERCET_KYE
+    SERCET_KYE,
+    APP_HOST
 } = process.env
