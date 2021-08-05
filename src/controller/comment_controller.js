@@ -2,16 +2,17 @@ const commentService = require('../service/comment.service');
 
 class CommentController {
   async create(req, res, next) {
-    const { momentId, content } = req.body;
-    const { id } = req.user;
-    const result = await commentService.create(momentId, content, id);
+    const { momentId } = req.params;
+    const { content } = req.body;
+    const { insertId } = req.user;
+    const result = await commentService.create(momentId, content, insertId);
     res.send(result);
   }
   async reply(req, res, next) {
-    const { momentId, content } = req.body;
+    const { content } = req.body;
     const { commentId } = req.params;
-    const { id } = req.user;
-    const result = await commentService.reply(momentId, content, id, commentId);
+    const { insertId } = req.user;
+    const result = await commentService.reply(content, insertId, commentId);
     res.send(result);
   }
   async update(req, res, next) {
@@ -29,6 +30,11 @@ class CommentController {
     const { momentId } = req.query;
     console.log(momentId);
     const result = await commentService.getCommentByMomentId(momentId);
+    res.send(result);
+  }
+  async getRecomment(req, res, next) {
+    const { commentId } = req.params;
+    const result = await commentService.getRecomment(commentId);
     res.send(result);
   }
 }

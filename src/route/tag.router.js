@@ -1,10 +1,17 @@
 const express = require('express');
-const { create, getTagList } = require('../controller/tag_controller.js');
+const {
+  create,
+  getTagList,
+  createColor
+} = require('../controller/tag_controller.js');
 // const {verifyAuth}=require('../middleware/auth_middleware')
 const tagRouter = express.Router();
-
+//获取全部标签verifyLabelExists
 tagRouter.get('/', getTagList);
 // tagRouter.use('/',verifyAuth)
-tagRouter.post('/', create);
+
+//创建标签
+tagRouter.post('/tag', create);
+tagRouter.post('/color', createColor);
 
 module.exports = tagRouter;

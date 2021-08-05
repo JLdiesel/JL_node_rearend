@@ -3,15 +3,11 @@ const momentService = require('../service/moment.service');
 
 class MomentController {
   async create(req, res, next) {
-    console.log(req.user);
     //取出发表的言论和用户ID
-    const userID = req.user.id;
-    const content = req.body.content;
-    console.log(userID);
-    console.log(content);
+    const userID = req.user.insertId;
+    const { content, title, status } = req.body;
     //讲输入信息传入到数据库
-    const result = await momentService.create(userID, content);
-    console.log(result);
+    const result = await momentService.create(userID, content, title, status);
     res.send({
       id: userID,
       message: '当前用户发表评论成功',
@@ -26,13 +22,14 @@ class MomentController {
   }
   //通过用户ID 查询该用户的文章
   async currentUserReviews(req, res, next) {
-    const { id } = req.user;
-    const result = await momentService.getMomentByUserId(id);
+    const { insertId } = req.user;
+    const result = await momentService.getMomentByUserId(insertId);
     res.send(result);
   }
-  async detailList(req, res, next) {
+  async detailListbyStatus(req, res, next) {
     const { offset, size } = req.query;
-    const result = await momentService.getMomentList(offset, size);
+    const { status } = req.params;
+    const result = await momentService.getMomentList(offset, size, status);
     res.send(result);
   }
   async update(req, res, next) {
@@ -67,6 +64,13 @@ class MomentController {
   async fileInfo(req, res, next) {
     const { filename } = req.params;
     const fileInfo = await fileService.getFileByFilename(filename);
+    const { type } = req.query;
+    const types = ['large', 'middle', 'small'];
+    let fileName2 = `${fileInfo.filename}`;
+    if (types.some((item) => item === type)) {
+      fileName2 = `${fileInfo.filename}-${type}`;
+    }
+
     var options = {
       root: './uploads/pic',
       dotfiles: 'deny',
@@ -76,8 +80,6 @@ class MomentController {
         'Content-Type': fileInfo.mimetype
       }
     };
-
-    const fileName2 = `${fileInfo.filename}`;
 
     res.sendFile(fileName2, options, function (err) {
       if (err) {

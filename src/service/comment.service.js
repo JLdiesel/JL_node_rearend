@@ -9,13 +9,12 @@ class CommentService {
     ]);
     return result[0];
   }
-  async reply(momentId, content, userId, commentId) {
-    const statement = `INSERT INTO comment (content,moment_id,user_id,comment_id) VALUES(?,?,?,?)`;
+  async reply(content, userId, commentId) {
+    const statement = `INSERT INTO recomment (user_id,comment_id,content) VALUES(?,?,?)`;
     const result = await connection.execute(statement, [
-      content,
-      momentId,
       userId,
-      commentId
+      commentId,
+      content
     ]);
     return result[0];
   }
@@ -35,7 +34,16 @@ class CommentService {
     const result = await connection.execute(statement, [momentId]);
     return result[0];
   }
-  async createPic() {}
+  async getRecomment(commentId) {
+    const statement = `SELECT IF(count(rec.id), JSON_ARRAYAGG(JSON_OBJECT("id",u.id,"avatar",u.avatar_url,"nickName",u.nickName,"content",rec.content,"createAt",rec.createAt)),null) recomment
+            FROM comment c 
+            left JOIN recomment rec ON c.id=rec.comment_id
+            LEFT JOIN user u ON c.user_id=u.id
+            WHERE c.id=?`;
+
+    const result = await connection.execute(statement, [commentId]);
+    return result[0];
+  }
 }
 
 module.exports = new CommentService();
