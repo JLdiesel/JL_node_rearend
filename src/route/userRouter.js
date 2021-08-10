@@ -51,8 +51,9 @@ userRouter.get('/fans', getFans);
 userRouter.get('/follow', getFollow);
 userRouter.delete('/follow/:userId', removeFollow);
 
-//地址管理
+//更新用户信息
 userRouter.patch('/updateUserInfo', updateUserInfo);
+//地址管理
 userRouter.get('/address', getUserAddress);
 userRouter.post('/address', addUserAddress);
 userRouter.delete('/address/:addressId', removeAddress);

@@ -3,16 +3,15 @@ const JWT = require('jsonwebtoken');
 const { SERCET_KYE } = require('../app/config');
 const fileService = require('../service/file.service');
 const userService = require('../service/user.service');
-const { getUserById } = require('../service/user.service');
 class UserController {
   async create(req, res, next) {
     const user = req.body;
     // try {
     const result = await service.create(user);
-    console.log(result.insertId);
+    console.log(result.id);
     const { name, password } = user;
-    const { insertId } = result;
-    const token = JWT.sign({ insertId, name, password }, SERCET_KYE, {
+    const { id } = result;
+    const token = JWT.sign({ id, name, password }, SERCET_KYE, {
       expiresIn: 60 * 60 * 24 * 7
     });
     const results = await service.login(name);
@@ -48,6 +47,12 @@ class UserController {
     const { userId } = req.params;
     const avaterInfo = await fileService.getAvatarByUserId(userId);
     // res.send(avaterInfo.filename)
+    const { type } = req.query;
+    const types = ['large', 'middle', 'small'];
+    let fileName = `${avaterInfo.filename}`;
+    if (types.some((item) => item === type)) {
+      fileName = `${avaterInfo.filename}-${type}`;
+    }
     console.log(avaterInfo);
     var options = {
       root: './uploads/avatar',
@@ -59,8 +64,6 @@ class UserController {
       }
     };
 
-    var fileName = `${avaterInfo.filename}`;
-
     res.sendFile(fileName, options, function (err) {
       if (err) {
         next(err);
@@ -70,10 +73,11 @@ class UserController {
     });
   }
   async updateUserInfo(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { nickName, sex, birthday, ownSay } = req.body;
+    console.log(req.body);
     const result = await userService.updateUserInfo(
-      insertId,
+      id,
       nickName,
       sex,
       birthday,
@@ -82,30 +86,30 @@ class UserController {
     res.send('修改用户信息成功');
   }
   async getUserInfo(req, res, next) {
-    const { insertId } = req.user;
-    const result = await getUserById(insertId);
+    const { id } = req.user;
+    const result = await userService.getUserById(id);
     res.send(result[0]);
   }
   async createFollow(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { userId } = req.params;
-    const result = await userService.createFollow(insertId, userId);
+    const result = await userService.createFollow(id, userId);
     res.send(result);
   }
   async getFollow(req, res, next) {
-    const { insertId } = req.user;
-    const result = await userService.getFollow(insertId);
+    const { id } = req.user;
+    const result = await userService.getFollow(id);
     res.send(result);
   }
   async removeFollow(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { userId } = req.params;
-    const result = await userService.removeFollow(insertId, userId);
+    const result = await userService.removeFollow(id, userId);
     res.send(result);
   }
   async getFans(req, res, next) {
-    const { insertId } = req.user;
-    const result = await userService.getFans(insertId);
+    const { id } = req.user;
+    const result = await userService.getFans(id);
     res.send(result);
   }
   async updateUserStatus(req, res, next) {
@@ -114,19 +118,14 @@ class UserController {
     res.send(result);
   }
   async getUserAddress(req, res, next) {
-    const { insertId } = req.user;
-    const result = await userService.getUserAddress(insertId);
+    const { id } = req.user;
+    const result = await userService.getUserAddress(id);
     res.send(result);
   }
   async addUserAddress(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { name, phoneNum, address } = req.body;
-    const result = await userService.addAddress(
-      insertId,
-      name,
-      phoneNum,
-      address
-    );
+    const result = await userService.addAddress(id, name, phoneNum, address);
     res.send(result);
   }
   async removeAddress(req, res, next) {
@@ -135,12 +134,12 @@ class UserController {
     res.send(result);
   }
   async addorider(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { shopId, shopCarId, addressId, count, howPay } = req.body;
     const result = await userService.addOrider(
       shopId,
       shopCarId,
-      insertId,
+      id,
       addressId,
       count,
       howPay
@@ -153,14 +152,14 @@ class UserController {
     res.send(result);
   }
   async getOriderListByUserId(req, res, next) {
-    const { insertId } = req.user;
-    const result = await userService.getOriderListByUserId(insertId);
+    const { id } = req.user;
+    const result = await userService.getOriderListByUserId(id);
     res.send(result);
   }
   async getOriderListByStatus(req, res, next) {
-    const { insertId } = req.user;
+    const { id } = req.user;
     const { status } = req.params;
-    const result = await userService.getOriderListByStatus(insertId, status);
+    const result = await userService.getOriderListByStatus(id, status);
     res.send(result);
   }
   async changeOriderStatus(req, res, next) {

@@ -11,18 +11,47 @@ class FileService {
     ]);
     return result[0];
   }
+  async createVideoAvatar(filename, mimetype, size, videoId) {
+    const statement = `insert into video_avatar (filename,mimetype,size,video_id) values (?,?,?,?)`;
+    const result = await connection.execute(statement, [
+      filename,
+      mimetype,
+      size,
+      videoId
+    ]);
+    return result[0];
+  }
+  async createVideo(filename, mimetype, size, videoId) {
+    const statement = `insert into video_file (filename,mimetype,size,video_id) values (?,?,?,?)`;
+    const result = await connection.execute(statement, [
+      filename,
+      mimetype,
+      size,
+      videoId
+    ]);
+    return result[0];
+  }
   async getAvatarByUserId(userId) {
     const statement = `SELECT * FROM avatar WHERE user_id=?`;
     const [result] = await connection.execute(statement, [userId]);
     return result.pop();
   }
-  async createFile(filename, mimetype, size, userId, momentId) {
-    const statement = `insert into file (filename,mimetype,size,user_id,moment_id) values (?,?,?,?,?)`;
+  async getAvatarByVideoId(videoId) {
+    const statement = `SELECT * FROM video_avatar WHERE video_id=?`;
+    const [result] = await connection.execute(statement, [videoId]);
+    return result.pop();
+  }
+  async getVideoByVideoId(videoId) {
+    const statement = `SELECT * FROM video_file WHERE video_id=?`;
+    const [result] = await connection.execute(statement, [videoId]);
+    return result.pop();
+  }
+  async createFile(filename, mimetype, size, momentId) {
+    const statement = `insert into file (filename,mimetype,size,moment_id) values (?,?,?,?)`;
     const [result] = await connection.execute(statement, [
       filename,
       mimetype,
       size,
-      userId,
       momentId
     ]);
     return result[0];
@@ -57,6 +86,7 @@ class FileService {
     ]);
     return result[0];
   }
+
   async getFileByFilename(filename) {
     const statement = `SELECT * FROM file WHERE filename=?`;
     const [result] = await connection.execute(statement, [filename]);

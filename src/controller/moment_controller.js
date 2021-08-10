@@ -4,7 +4,7 @@ const momentService = require('../service/moment.service');
 class MomentController {
   async create(req, res, next) {
     //取出发表的言论和用户ID
-    const userID = req.user.insertId;
+    const userID = req.user.id;
     const { content, title, status } = req.body;
     //讲输入信息传入到数据库
     const result = await momentService.create(userID, content, title, status);
@@ -22,8 +22,8 @@ class MomentController {
   }
   //通过用户ID 查询该用户的文章
   async currentUserReviews(req, res, next) {
-    const { insertId } = req.user;
-    const result = await momentService.getMomentByUserId(insertId);
+    const { id } = req.user;
+    const result = await momentService.getMomentByUserId(id);
     res.send(result);
   }
   async detailListbyStatus(req, res, next) {
@@ -88,6 +88,24 @@ class MomentController {
         console.log('成功了');
       }
     });
+  }
+  async createByStatus(req, res, next) {
+    const { status } = req.params;
+    const { content, ezcontent, title } = req.body;
+    const result = await momentService.createByStatus(
+      content,
+      ezcontent,
+      title,
+      status
+    );
+    res.send(result);
+  }
+  //通过status获取文章列表
+  async getListByStatus(req, res, next) {
+    const { status } = req.params;
+    const { offset = 0, top = 5 } = req.query;
+    const result = await momentService.getListByStatus(status, offset, top);
+    res.send(result);
   }
 }
 

@@ -5,12 +5,11 @@ const authService = require('../service/auth.service');
 const verifyAuth = async (req, res, next) => {
   //公钥解析
   try {
-    console.log('验证授权');
     const authorization = req.headers.authorization;
     const token = authorization.replace('Bearer ', '');
     const result = JWT.verify(token, SERCET_KYE);
+
     req.user = result;
-    console.log(result);
     await next();
   } catch (error) {
     next(new Error(errType.UN_LOGIN));

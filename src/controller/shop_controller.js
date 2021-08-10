@@ -18,21 +18,10 @@ class shopController {
     const result = await shopService.getShopLists(type, offset, top);
     res.send(result);
   }
-  async addColorTags(req, res, next) {
-    const { colors } = req;
-    const { shopId } = req.params;
-    //添加所有的标签
-    for (const color of colors) {
-      //判断动态中是否已经有标签了
-      const isExist = await shopService.hasColor(shopId, color.id);
-      if (!isExist) {
-        await shopService.addColor(shopId, tag.id);
-      }
-    }
-    res.send({
-      statusCode: 200,
-      data: '给动态添加标签成功'
-    });
+  async getShopHomeList(req, res, next) {
+    const { offset, top } = req.query;
+    const result = await shopService.getShopHomeList(offset, top);
+    res.send(result);
   }
   async BannerPicInfo(req, res, next) {
     const { filename } = req.params;

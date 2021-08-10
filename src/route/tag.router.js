@@ -11,7 +11,6 @@ tagRouter.get('/', getTagList);
 // tagRouter.use('/',verifyAuth)
 
 //创建标签
-tagRouter.post('/tag', create);
-tagRouter.post('/color', createColor);
+tagRouter.post('/', create);
 
 module.exports = tagRouter;

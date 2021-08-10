@@ -12,11 +12,6 @@ class Tag {
     const result = await tagService.getTagList(offset, limit);
     res.send(result);
   }
-  async createColor(req, res, next) {
-    const { color } = req.body;
-    const result = await tagService.createColor(color);
-    res.send(result);
-  }
 }
 
 module.exports = new Tag();

@@ -9,7 +9,9 @@ const {
   detailByMomentId,
   update,
   addTags,
-  fileInfo
+  fileInfo,
+  createByStatus,
+  getListByStatus
 } = require('../controller/moment_controller');
 const {
   verifyAuth,
@@ -25,6 +27,10 @@ momentRouter.patch('/:momentId', update);
 momentRouter.get('/detaillistbyStatus/:status', detailListbyStatus);
 //获取文章图片
 momentRouter.get('/images/:filename', fileInfo);
+//上传不同类型的文章
+momentRouter.post('/createByStatus/:status', createByStatus);
+
+momentRouter.get('/getListByStatus/:status', getListByStatus);
 
 momentRouter.use('/', verifyAuth);
 //通过用户ID 查询该用户的文章
@@ -37,8 +43,8 @@ momentRouter.use('/:momentId', verifyPermission);
 //删除文章
 momentRouter.delete('/:momentId', remove);
 //添加标签中间件
-momentRouter.use('/:momentId/tags', verifyLabelExists);
+momentRouter.use('/:momentId/momentTags', verifyLabelExists);
 //添加标签
-momentRouter.post('/:momentId/tags', addTags);
+momentRouter.post('/:momentId/momentTags', addTags);
 
 module.exports = momentRouter;

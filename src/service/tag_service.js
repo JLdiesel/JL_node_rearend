@@ -17,16 +17,6 @@ class TagService {
     const result = await connection.execute(statement, [offset, limit]);
     return result[0];
   }
-  async createColor(color) {
-    const statement = `INSERT into color (color) values(?)`;
-    const result = await connection.execute(statement, [color]);
-    return result[0];
-  }
-  async getColorByName(name) {
-    const statement = `SELECT * FROM color where color=?`;
-    const result = await connection.execute(statement, [name]);
-    return result[0];
-  }
 }
 
 module.exports = new TagService();

@@ -8,10 +8,13 @@ const {
   InnerPicInfo,
   carPicInfo,
   addshopcar,
-  getShopById
+  getShopById,
+  getShopHomeList
 } = require('../controller/shop_controller.js');
 shopRouter.get('/getShopById/:shopId', getShopById);
-shopRouter.get('/:type', getShopList);
+shopRouter.get('/', getShopHomeList);
+shopRouter.get('/getShopList/:type', getShopList);
+
 shopRouter.get('/shopBanner/:filename', BannerPicInfo);
 shopRouter.get('/shopInner/:filename', InnerPicInfo);
 shopRouter.get('/shopcar/:filename', carPicInfo);

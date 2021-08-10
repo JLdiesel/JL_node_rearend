@@ -35,28 +35,22 @@ ON DUPLICATE KEY UPDATE color=VALUES(color), price=VALUES(price);`;
     return result[0];
   }
   async getShopById(shopId) {
-    const statement = `SELECT JSON_OBJECT("id",shop.id,'title',shop.title,'price',shop.price,'sellnum',shop.sellnum,"inner",shop.introduce) shopInner ,
-      (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/shop/shopBanner/',sbp.filename)) FROM shopbannerpic sbp WHERE shop.id=sbp.shop_id) bannerImages ,
-      (SELECT JSON_ARRAYAGG(JSON_OBJECT("img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color ,"price",sc.price )) FROM shopcar sc WHERE shop.id=sc.shop_id) shopcarimages ,
-      (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/shop/shopInner/',sip.filename)) FROM shopinnerpic sip WHERE shop.id=sip.shop_id) shopinnerimages 
+    const statement = `SELECT JSON_OBJECT("id",shop.id,'title',shop.title,'price',shop.price,'sellnum',shop.sellnum,"inner",shop.introduce,"imgurl",shop.imguri) shopInner ,
+      (SELECT JSON_ARRAYAGG(  JSON_OBJECT("imgrl",CONCAT('http://192.168.50.146:3000/shop/shopBanner/',sbp.filename),"id",sbp.id)) FROM shopbannerpic sbp WHERE shop.id=sbp.shop_id) bannerImages ,
+      (SELECT JSON_ARRAYAGG(JSON_OBJECT("id",sc.id,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color ,"price",sc.price )) FROM shopcar sc WHERE shop.id=sc.shop_id) shopcarimages ,
+      (SELECT JSON_ARRAYAGG(JSON_OBJECT("imgurl",CONCAT('http://192.168.50.146:3000/shop/shopInner/',sip.filename),"id",sip.id)) FROM shopinnerpic sip WHERE shop.id=sip.shop_id) shopinnerimages 
       FROM shop   
       where  shop.id= ?
+
 `;
     const [result] = await connection.execute(statement, [shopId]);
     return result[0];
   }
-  /* //判断是否含有color
-  async hasColor(shopId, colorId) {
-    const statement = `SELECT * FROM shop_color WHERE shop_id =? AND color_id=?`;
-    const result = await connection.execute(statement, [shopId, colorId]);
-    return result[0].length ? true : false;
+  async getShopHomeList(offset, top) {
+    const statement = `SELECT * from shop  limit ?,?`;
+    const [result] = await connection.execute(statement, [offset, top]);
+    return result;
   }
-  //为文章添加标签
-  async addColor(shopId, colorId) {
-    const statement = `INSERT INTO shop_color (shopId,colorId) VALUES(?,?)`;
-    const result = await connection.execute(statement, [shopId, colorId]);
-    return result[0];
-  } */
 }
 
 module.exports = new ShopService();

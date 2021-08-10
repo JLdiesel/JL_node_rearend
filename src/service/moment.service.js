@@ -26,11 +26,16 @@ class MomentService {
             SELECT m.id id,m.content content,m.title title,m.createAt createTime,m.updateAt updateTime,m.status status,
             JSON_OBJECT('id',u.id,'nickName',u.nickName,"avatar",u.avatar_url) user,
             (SELECT COUNT(*) FROM comment c WHERE c.moment_id=m.id) commentCount,
-            (SELECT COUNT(*) FROM moment_tag mt WHERE mt.moment_id=m.id) tagCount,
+						IF(COUNT(t.id),JSON_ARRAYAGG(
+							JSON_OBJECT('id',t.id,'name',t.name)
+							),null) tags,
              (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
             FROM moment m
             LEFT JOIN user u ON m.user_id =u.id
+						 LEFT JOIN moment_tag mt ON m.id=mt.moment_id
+						LEFT JOIN tag t ON mt.tag_id=t.id
             where m.status=?
+						GROUP BY m.id
 						  LIMIT ?,? ;`;
     const result = await connection.execute(statement, [status, offset, size]);
     return result[0];
@@ -49,7 +54,7 @@ class MomentService {
 				LEFT JOIN user cu ON c.user_id=cu.id
 				LEFT JOIN recomment rec ON c.id=rec.id
 				WHERE m.id=c.moment_id ) comments,
-        (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images',file.filename)) FROM file WHERE m.id=file.moment_id) images 
+        (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
         FROM moment m
         LEFT JOIN user u ON m.user_id =u.id
         LEFT JOIN moment_tag mt ON m.id=mt.moment_id
@@ -89,6 +94,23 @@ class MomentService {
     const statement = `UPDATE moment SET picture =? where id = ?`;
     const [result] = await connection.execute(statement, [fileUrl, momentId]);
     return result[0];
+  }
+  async createByStatus(content, ezcontent, title, status) {
+    const statement = `insert into moment (content,ezcontent,title,status) values(?,?,?,?)`;
+    const [result] = await connection.execute(statement, [
+      content,
+      ezcontent,
+      title,
+      status
+    ]);
+    return result;
+  }
+  async getListByStatus(status, offset, top) {
+    const statement = `SELECT 	m.id id,m.content content,m.title title,m.picture picurl,m.ezcontent 
+ezcontent 
+FROM moment m WHERE status=? LIMIT ?,?`;
+    const [result] = await connection.execute(statement, [status, offset, top]);
+    return result;
   }
 }
 

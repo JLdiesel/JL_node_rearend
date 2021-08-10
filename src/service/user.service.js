@@ -17,9 +17,18 @@ class UserService {
     const result = await connection.execute(statement, [name]);
     return result[0];
   }
-  //通过name查找user密码
+  //通过id查找用户数据
   async getUserById(id) {
-    const statement = `select * from user where id=?`;
+    const statement = `select u.nickName nickName,u.sex sex,u.birthday birthday ,u.ownSay ownSay,u.isStream isStream,u.avatar_url avatar,
+(SELECT    COUNT(follow_user_id) followCount 
+FROM follow f 
+LEFT JOIN user  u on f.follow_user_id=u.id 
+WHERE f.user_id=u.id) followCount,
+(SELECT    COUNT(user_id) fansCount
+FROM follow  f LEFT JOIN user  u on f.follow_user_id=u.id 
+WHERE follow_user_id=u.id and status = 0) fansCount
+from user u
+where id=?`;
     const result = await connection.execute(statement, [id]);
     return result[0];
   }
@@ -31,6 +40,11 @@ class UserService {
   }
   async updateAvatarUrlById(avatarUrl, userId) {
     const statement = `UPDATE user SET avatar_url =? where id = ?`;
+    const [result] = await connection.execute(statement, [avatarUrl, userId]);
+    return result[0];
+  }
+  async updateBackgroundById(avatarUrl, userId) {
+    const statement = `UPDATE user SET backgroundUrl =? where id = ?`;
     const [result] = await connection.execute(statement, [avatarUrl, userId]);
     return result[0];
   }
@@ -132,9 +146,10 @@ WHERE  od.id=?
     return result[0];
   }
   async getOriderListByUserId(userId) {
-    const statement = `SELECT JSON_ARRAYAGG(
-JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)) oriderList
-FROM user  u
+    const statement = `SELECT IF(COUNT(od.id),JSON_ARRAYAGG(
+JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status) )
+,null) oriderList
+    FROM user  u
 left JOIN orider od ON u.id= od.user_id
 left JOIN shop  ON shop.id=od.shop_id
 left JOIN shopcar  sc ON sc.id=od.shopCar_id

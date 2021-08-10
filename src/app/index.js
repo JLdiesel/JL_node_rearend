@@ -8,6 +8,7 @@ const fileRouter = require('../route/file.router');
 const errHandler = require('./err_handle');
 // const DongTaiRouter = require('./dongtai');
 const shopRouter = require('../route/shop.router');
+const videoRouter = require('../route/video.router');
 const app = express();
 
 app.use(express.json());
@@ -19,5 +20,6 @@ app.use('/moment', momentRouter);
 app.use('/comment', commentRouter);
 app.use('/tag', tagRouter);
 app.use('/shop', shopRouter);
+app.use('/video', videoRouter);
 app.use(errHandler);
 module.exports = app;
