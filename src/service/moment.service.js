@@ -43,7 +43,8 @@ class MomentService {
   //查找一篇文章所有的信息
   async getMomentByMomentId(momentId) {
     const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,m.status status,
-        IF(COUNT(t.id),JSON_ARRAYAGG(
+       JSON_OBJECT('id',u.id,'nickName',u.nickName,'avatarUrl',u.avatar_url) user,
+    IF(COUNT(t.id),JSON_ARRAYAGG(
         JSON_OBJECT('id',t.id,'name',t.name)
         ),null) tags,
         (SELECT IF(COUNT(c.id),JSON_ARRAYAGG(
@@ -54,6 +55,7 @@ class MomentService {
 				LEFT JOIN user cu ON c.user_id=cu.id
 				LEFT JOIN recomment rec ON c.id=rec.id
 				WHERE m.id=c.moment_id ) comments,
+        
         (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
         FROM moment m
         LEFT JOIN user u ON m.user_id =u.id

@@ -15,7 +15,6 @@ class MomentController {
     });
   }
   async detailByMomentId(req, res, next) {
-    console.log(req.params.momentId);
     const momentId = req.params.momentId;
     const result = await momentService.getMomentByMomentId(momentId);
     res.send(result);

@@ -173,5 +173,18 @@ class UserController {
     await userService.removeOriderListById(oriderId);
     res.send('删除成功');
   }
+  async changeUserDefaultAddress(req, res, next) {
+    const { id } = req.user;
+    const { addressId } = req.params;
+    await userService.clearDefaultAddress(id);
+    await userService.changeUserDefaultAddress(addressId);
+    res.send('修改默认地址成功');
+  }
+  async getUserDefaultAddress(req, res, next) {
+    const { id } = req.user;
+    const result = await userService.findDefaultAddress(id);
+
+    res.send(result);
+  }
 }
 module.exports = new UserController();

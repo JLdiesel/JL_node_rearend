@@ -25,7 +25,9 @@ const {
   getOriderListByUserId,
   getOriderListByStatus,
   changeOriderStatus,
-  removeorider
+  removeorider,
+  changeUserDefaultAddress,
+  getUserDefaultAddress
 } = require('../controller/user_controller');
 const { verifyAuth } = require('../middleware/auth_middleware');
 //管理员更改用户直播权限
@@ -55,9 +57,14 @@ userRouter.delete('/follow/:userId', removeFollow);
 userRouter.patch('/updateUserInfo', updateUserInfo);
 //地址管理
 userRouter.get('/address', getUserAddress);
+//获取默认地址
+userRouter.get('/defaultAddress', getUserDefaultAddress);
 userRouter.post('/address', addUserAddress);
+//改变默认地址
+userRouter.patch('/address/:addressId', changeUserDefaultAddress);
 userRouter.delete('/address/:addressId', removeAddress);
 //订单管理
+
 userRouter.post('/orider', addorider);
 userRouter.patch('/orider/:oriderId', changeOriderStatus);
 userRouter.delete('/orider/:oriderId', removeorider);

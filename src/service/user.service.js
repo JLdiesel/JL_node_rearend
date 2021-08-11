@@ -92,14 +92,14 @@ WHERE follow_user_id=? and status = 0`;
   }
   //获取用户地址
   async getUserAddress(userId) {
-    const statement = `SELECT COUNT(address) followCount,JSON_ARRAYAGG(JSON_OBJECT("name",uad.name,"phoneNum",uad.phoneNum,"address",uad.address,"isdefault",uad.isdefault))  address
+    const statement = `SELECT COUNT(address) addressCount,JSON_ARRAYAGG(JSON_OBJECT("id",uad.id,"name",uad.name,"phoneNum",uad.phoneNum,"address",uad.address,"isdefault",uad.isdefault))  address
 FROM useraddress  uad
 left JOIN  user  u ON uad.user_id=u.id
 WHERE user_id=?
 
 `;
     const [result] = await connection.execute(statement, [userId]);
-    return result;
+    return result[0];
   }
   async addAddress(userId, name, phoneNum, address) {
     const statement = `INSERT INTO useraddress (user_id,name,phoneNum,address) VALUES (?,?,?,?)
@@ -178,6 +178,21 @@ WHERE  u.id=?
   async removeOriderListById(oriderId) {
     const statement = `DELETE from  orider where id = ?`;
     const [result] = await connection.execute(statement, [oriderId]);
+    return result[0];
+  }
+  async clearDefaultAddress(userId) {
+    const statement = `UPDATE useraddress SET isdefault =0 WHERE user_id=? AND isdefault =1`;
+    const result = await connection.execute(statement, [userId]);
+    return result[0];
+  }
+  async changeUserDefaultAddress(addressId) {
+    const statement = `UPDATE useraddress SET isdefault =1 WHERE id=?`;
+    const result = await connection.execute(statement, [addressId]);
+    return result[0];
+  }
+  async findDefaultAddress(userId) {
+    const statement = `select * from  useraddress where user_id =? and isdefault=1`;
+    const [result] = await connection.execute(statement, [userId]);
     return result[0];
   }
 }

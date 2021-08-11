@@ -29,7 +29,7 @@ momentRouter.get('/detaillistbyStatus/:status', detailListbyStatus);
 momentRouter.get('/images/:filename', fileInfo);
 //上传不同类型的文章
 momentRouter.post('/createByStatus/:status', createByStatus);
-
+//获取不同类型的文字
 momentRouter.get('/getListByStatus/:status', getListByStatus);
 
 momentRouter.use('/', verifyAuth);
