@@ -1,0 +1,1823 @@
+{
+	"info": {
+		"_postman_id": "c08fcc77-8d6c-4b63-bcdf-f45727f8668d",
+		"name": "hy接口",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "用户",
+			"item": [
+				{
+					"name": "用户登录接口",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"wsnd\",\n\t\"password\":\"wsnd\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.50.146:3000/user/login",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"146"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户注册+登录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"wsnd\",\n\t\"password\":\"wsnd\"\n}\n"
+						},
+						"url": {
+							"raw": "http://192.168.50.146:3000/user/register",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"146"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户上传头像",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取用户信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksIm5hbWUiOiI2NjY2IiwicGFzc3dvcmQiOiJlOTUxMDA4MWFjMzBmZmE4M2YxMGI2OGNkZTFjYWMwNyIsImlhdCI6MTYyODMzNjIyNSwiZXhwIjoxNjI4OTQxMDI1fQ.xLxmFDfzKFh03nsJRAHekkDTbtcOHmmA87J6Fkrizig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nickName\":\"三百五\",\n\t\"sex\":0,\n\t\"birthday\":\"2000-03-22\",\n\t\"ownSay\":\"我的世界我做主\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/updateUserInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"updateUserInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户添加关注",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/follow/33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"follow",
+								"33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户查找粉丝",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/fans",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"fans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查找关注列表",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户点赞",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户点赞列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户直播权限",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/updateUserStatus/44",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"updateUserStatus",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加地址信息",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"金龙\",\n\t\"address\":\"湖州安吉\",\n\t\"phoneNum\":\"17777777\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查找用户保存地址",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除地址",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:3000/user/address/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"address",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取用户头像",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/42/avatar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"42",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户查询订单列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "通过订单状态查询订单",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/oriderListBystatus/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"oriderListBystatus",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更改订单状态",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/orider/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"orider",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除订单",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksIm5hbWUiOiI2NjY2IiwicGFzc3dvcmQiOiJlOTUxMDA4MWFjMzBmZmE4M2YxMGI2OGNkZTFjYWMwNyIsImlhdCI6MTYyODMzNjIyNSwiZXhwIjoxNjI4OTQxMDI1fQ.xLxmFDfzKFh03nsJRAHekkDTbtcOHmmA87J6Fkrizig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:3000/user/orider/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"orider",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户背景图片",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查找默认地址",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户默认地址",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "文章",
+			"item": [
+				{
+					"name": "上传文章内容与标题",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"我发表了第四篇文章\",\n\t\"title\":\"文章标题234\",\n\t\"type\":\"论坛\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户上传文章图片",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksIm5hbWUiOiI2NjY2IiwicGFzc3dvcmQiOiJlOTUxMDA4MWFjMzBmZmE4M2YxMGI2OGNkZTFjYWMwNyIsImlhdCI6MTYyODMzNjIyNSwiZXhwIjoxNjI4OTQxMDI1fQ.xLxmFDfzKFh03nsJRAHekkDTbtcOHmmA87J6Fkrizig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/momentInUser/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"momentInUser",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取文章图片",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:3000/moment/images/f89b9938b71a35ea346ac252e101533f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"images",
+								"f89b9938b71a35ea346ac252e101533f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取文章所有信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/detailbymomentid/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"detailbymomentid",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "给文章添加标签",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"tags\":[\"名角\",\"优美\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/15/momentTags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"15",
+								"momentTags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户删除文章",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/13",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "管理员修改文章内容",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"我是猪b\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取用户发表的文章",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/currentUserReviews",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"currentUserReviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取论坛文章列表status=0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/detaillistbyStatus/1?offset=0&size=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"detaillistbyStatus",
+								"1"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "上传俯瞰百年文章",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"上传的status为1的文章\",\n\t\"title\":\"文章标题\",\n\t\"ezcontent\":\"文章简介\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/createByStatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"createByStatus",
+								"1"
+							]
+						},
+						"description": "1为百年 2为派别"
+					},
+					"response": []
+				},
+				{
+					"name": "通过status获取文章",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/moment/getListByStatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"moment",
+								"getListByStatus",
+								"1"
+							]
+						},
+						"description": "0为用户文章，1为俯瞰百年，2为派别文章"
+					},
+					"response": []
+				},
+				{
+					"name": "管理员上传文章图片",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "评论区",
+			"item": [
+				{
+					"name": "用户发表评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"我是猪鼻3\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/comment/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comment",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "回复评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"讲的真不错\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/comment/15/reply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comment",
+								"15",
+								"reply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取一条评论的所有回复",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/comment/15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comment",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "发表视频评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"这视频真不错\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/comment/video/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comment",
+								"video",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "回复视频评论",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"你这评论针不错\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/comment/video/1/reply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"comment",
+								"video",
+								"1",
+								"reply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取视频评论的所有回复",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "商城",
+			"item": [
+				{
+					"name": "创建商城首页信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"衣服\"\n\t,\"price\":28.0\n\t,\"sellnum\":5\n\t,\"type\":\"0\",\n\t\"introduce\":\"这件衣服是清朝年间慈禧太后穿过的\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/shop",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shop"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "通过type查询商品列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {}
+						},
+						"url": {
+							"raw": "http://localhost:3000/shop/getShopList/1?offset=0&top=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shop",
+								"getShopList",
+								"1"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "top",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加商品轮播图",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/shop/BannerPicture/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"shop",
+								"BannerPicture",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加商品内容图",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/shop/MainPicture/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"shop",
+								"MainPicture",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加商品购物车图片",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								},
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/shop/shopCar/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"shop",
+								"shopCar",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "通过商品ID获取商品内容",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/shop/getShopById/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shop",
+								"getShopById",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加商品购物车内容",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"color\":\"绿色\", \"price\":666, \"shopcarId\":2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/shop/shopcar/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shop",
+								"shopcar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加订单",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnNlcnRJZCI6NDIsIm5hbWUiOiJ3c25kIiwicGFzc3dvcmQiOiIyOGI2MDAzOTcxOGEwN2Q5NDAzOGQ5M2E0OWQ4YzgwZCIsImlhdCI6MTYyNzkwMzI2NCwiZXhwIjoxNjI4NTA4MDY0fQ.-HcpTQBnkR1byVX8fNhw6a0LGYHi6R_o0uUewy45ByI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"shopId\":13\n\t, \"shopCarId\":1\n\t, \"insertId\":42\n\t, \"addressId\":3\n\t, \"count\":1\n\t, \"howPay\":0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/orider",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"orider"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "通过订单ID查询订单信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询首页商品封面信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/shop/getShopHomeList?offset=0&top=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"shop",
+								"getShopHomeList"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "top",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "视频页",
+			"item": [
+				{
+					"name": "添加视频标题和类型",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"百年越剧\",\n\t\"status\":0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/video",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"video"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加视频首页图片",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/videoAvatar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"videoAvatar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查询视频首页列表信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/video/videoListBystatus/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"video",
+								"videoListBystatus",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "为视频添加标签",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"tags\":[\"名角\",\"近代\"]\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/video/1/videoTags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"video",
+								"1",
+								"videoTags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加视频内容",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/uploads/videoFile/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"uploads",
+								"videoFile",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取视频主页信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "名角",
+			"item": []
+		}
+	]
+}
