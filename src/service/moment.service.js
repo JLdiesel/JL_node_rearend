@@ -42,27 +42,25 @@ class MomentService {
   }
   //查找一篇文章所有的信息
   async getMomentByMomentId(momentId) {
-    const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,m.status status,
-       JSON_OBJECT('id',u.id,'nickName',u.nickName,'avatarUrl',u.avatar_url) user,
-    IF(COUNT(t.id),JSON_ARRAYAGG(
-        JSON_OBJECT('id',t.id,'name',t.name)
-        ),null) tags,
-        (SELECT IF(COUNT(c.id),JSON_ARRAYAGG(
+    const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,
+JSON_OBJECT('id',u.id,'nickName',u.nickName,'avatarUrl',u.avatar_url) user,
+IF(COUNT(t.id),JSON_ARRAYAGG(
+JSON_OBJECT('id',t.id,'name',t.name)
+),null) tags,
+(SELECT IF(COUNT(c.id),JSON_ARRAYAGG(
         JSON_OBJECT('id',c.id,'content',c.content,'createTime',c.createAt,
-        'user',JSON_OBJECT('id',cu.id,'name',cu.name,'avatarUrl',cu.avatar_url))
-        ) ,NULL) 
+        'user',JSON_OBJECT('id',cu.id,'nickName',cu.nickName,'avatarUrl',cu.avatar_url),'reply',JSON_OBJECT("id",rec.id,"content",rec.content,"createAt",rec.createAt,"avatar",cu.avatar_url,"uid",cu.id,"nickName",cu.nickName)
+        )) ,NULL) 
 				FROM comment c
+				LEFT JOIN recomment rec ON c.id=rec.comment_id
 				LEFT JOIN user cu ON c.user_id=cu.id
-				LEFT JOIN recomment rec ON c.id=rec.id
-				WHERE m.id=c.moment_id ) comments,
-        
-        (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
-        FROM moment m
-        LEFT JOIN user u ON m.user_id =u.id
-        LEFT JOIN moment_tag mt ON m.id=mt.moment_id
-        LEFT JOIN tag t ON mt.tag_id=t.id
-        WHERE m.id=?
-        GROUP BY m.id;
+				WHERE m.id= c.moment_id  ) comments,
+ (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
+  FROM moment m
+  LEFT JOIN user u ON m.user_id =u.id
+  LEFT JOIN moment_tag mt ON m.id=mt.moment_id
+  LEFT JOIN tag t ON mt.tag_id=t.id
+  WHERE m.id=?
 `;
     const result = await connection.execute(statement, [momentId]);
     return result[0][0];
