@@ -134,7 +134,7 @@ WHERE user_id=?
 
   async getOriderByOriderId(oriderId) {
     const statement = `SELECT  JSON_OBJECT("address",ua.address,"phoneNum",ua.phoneNum,"name",ua.name) address,
-JSON_OBJECT("title",shop.title,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price)  shop,
+JSON_OBJECT("title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price)  shop,
 od.howPay howPay, od.createAt createTime,od.status status
 FROM orider od
 LEFT JOIN shopcar  sc ON sc.id=od.shopCar_id
@@ -147,7 +147,7 @@ WHERE  od.id=?
   }
   async getOriderListByUserId(userId) {
     const statement = `SELECT IF(COUNT(od.id),JSON_ARRAYAGG(
-JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status) )
+JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status) )
 ,null) oriderList
     FROM user  u
 left JOIN orider od ON u.id= od.user_id
@@ -160,7 +160,7 @@ WHERE  u.id=?
   }
   async getOriderListByStatus(userId, status) {
     const statement = `SELECT JSON_ARRAYAGG(
-        JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://192.168.50.146:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)) oriderList
+        JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)) oriderList
         FROM user  u
         left JOIN orider od ON u.id= od.user_id
         left JOIN shop  ON shop.id=od.shop_id
