@@ -30,7 +30,7 @@ class FileController {
       const { id } = req.user;
       await fileService.createAvatar(filename, originalname, size, id);
       //将图片地址保存到user表中
-      const avatarUrl = `${APP_HOST}:${APP_PORT}/user/${id}/avatar`;
+      const avatarUrl = `${APP_HOST}:${APP_PORT}/user/${id}/bg`;
       await userService.updateBackgroundById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {

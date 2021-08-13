@@ -38,6 +38,8 @@ userRouter.use('/login', loginMiddleware);
 userRouter.post('/login', login);
 //获取用户头像
 userRouter.get('/:userId/avatar', avatarInfo);
+userRouter.get('/:userId/bg', avatarInfo);
+
 //判断注册
 userRouter.use('/register', verifyUser);
 //密码转换
