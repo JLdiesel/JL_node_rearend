@@ -2,6 +2,9 @@ const shopService = require('../service/shop.service');
 const fileService = require('../service/file.service');
 class shopController {
   async addShop(req, res, next) {
+    try {
+      
+  
     const { title, price, sellnum, type, introduce } = req.body;
     const result = await shopService.createShop(
       title,
@@ -10,20 +13,32 @@ class shopController {
       type,
       introduce
     );
-    res.send('添加商品成功');
+    res.send('添加商品成功');  } catch (error) {
+        console.log(error);
+    
+    }
   }
   async getShopList(req, res, next) {
+     try {
     const { type } = req.params;
     const { offset, top } = req.query;
     const result = await shopService.getShopLists(type, offset, top);
-    res.send(result);
+    res.send(result);  } catch (error) {
+        console.log(error);
+      
+    }
   }
   async getShopHomeList(req, res, next) {
+     try {
     const { offset, top } = req.query;
     const result = await shopService.getShopHomeList(offset, top);
-    res.send(result);
+    res.send(result);  } catch (error) {
+        console.log(error);
+      
+    }
   }
   async BannerPicInfo(req, res, next) {
+     try {
     const { filename } = req.params;
     const fileInfo = await fileService.getBannerByFilename(filename);
     const { type } = req.query;
@@ -49,9 +64,13 @@ class shopController {
       } else {
         console.log('成功了');
       }
-    });
+    });  } catch (error) {
+        console.log(error);
+      
+    }
   }
   async InnerPicInfo(req, res, next) {
+     try {
     const { filename } = req.params;
     const fileInfo = await fileService.getInnerByFilename(filename);
     const { type } = req.query;
@@ -77,9 +96,13 @@ class shopController {
       } else {
         console.log('成功了');
       }
-    });
+    });  } catch (error) {
+        console.log(error);
+      
+    }
   }
   async carPicInfo(req, res, next) {
+     try {
     const { filename } = req.params;
     const fileInfo = await fileService.getCarByFilename(filename);
     const { type } = req.query;
@@ -105,19 +128,30 @@ class shopController {
       } else {
         console.log('成功了');
       }
-    });
+    });  } catch (error) {
+        console.log(error);
+      
+    }
   }
   async addshopcar(req, res, next) {
-    const { color, price } = req.body;
-    const { shopcarId } = req.params;
-    const result = await shopService.addshopcarInner(color, price, shopcarId);
-    res.send('成功了');
+    try {
+      const { color, price } = req.body;
+      const { shopcarId } = req.params;
+      const result = await shopService.addshopcarInner(color, price, shopcarId);
+      res.send('成功了');
+    } catch (err) {
+      console.log(err);
+    }
   }
   async getShopById(req, res, next) {
-    const { shopId } = req.params;
-    const result = await shopService.getShopById(shopId);
-    res.send(result);
-  }
+      try {
+        const { shopId } = req.params;
+        const result = await shopService.getShopById(shopId);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 }
 
 module.exports = new shopController();

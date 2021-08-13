@@ -19,7 +19,7 @@ class FileController {
       res.send(`上传头像成功`);
     } catch (error) {
       console.log(error);
-      res.send(error);
+      res.send();
     }
   }
   async saveUserBackground(req, res, next) {

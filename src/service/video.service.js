@@ -36,7 +36,7 @@ LIMIT ?,? ;`;
     return result[0];
   }
   async getVideoInnerById(videoId) {
-    const statement = `SELECT v.title title , v.watchNum watchNum  , v.avatar avatar ,CONCAT('http://192.168.50.146:3000/video/',vf.video_id,'/file') video,vf.likeNum likeNum,vf.collectionNum collectionNum,vf.createAt createAt,
+    const statement = `SELECT v.title title , v.watchNum watchNum  , v.avatar avatar ,CONCAT('http://120.79.86.32:3000/video/',vf.video_id,'/file') video,vf.likeNum likeNum,vf.collectionNum collectionNum,vf.createAt createAt,
 (SELECT IF(COUNT(c.id),JSON_ARRAYAGG(
         JSON_OBJECT('id',c.id,'content',c.content,'createTime',c.createAt,
         'user',JSON_OBJECT('id',u.id,'name',u.name,'avatarUrl',u.avatar_url))
