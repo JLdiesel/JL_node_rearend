@@ -119,6 +119,7 @@ class UserController {
   }
   async getUserAddress(req, res, next) {
     const { id } = req.user;
+
     const result = await userService.getUserAddress(id);
     res.send(result);
   }
@@ -153,7 +154,8 @@ class UserController {
   }
   async getOriderListByUserId(req, res, next) {
     const { id } = req.user;
-    const result = await userService.getOriderListByUserId(id);
+    const {offset=0,top=10}=req.query
+    const result = await userService.getOriderListByUserId(id,offset,top);
     res.send(result);
   }
   async getOriderListByStatus(req, res, next) {

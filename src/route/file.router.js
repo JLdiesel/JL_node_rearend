@@ -17,7 +17,7 @@ const {
   saveShopCar,
   saveVideoInfo,
   saveVideoPicInfo,
-  saveUserBackground
+  saveUserBackground,saveMusicInfo
 } = require('../controller/file_controller');
 const fileRouter = express.Router();
 //视频页数据
@@ -39,8 +39,10 @@ fileRouter.post('/shop/shopCar/:shopId', saveShopCar);
 
 //文章图片中间件
 fileRouter.use('/moment', PicUpload.any(), pictureResize);
+
 //上传文章图片
 fileRouter.post('/moment/:momentId', savePicInfo);
+fileRouter.post('/momentmusic/:momentId',videoUpload.any(), saveMusicInfo);
 
 fileRouter.use('/', verifyAuth);
 
