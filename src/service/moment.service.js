@@ -23,7 +23,8 @@ class MomentService {
   //查找文章列表
   async getMomentList(offset, size, status) {
     const statement = `
-            SELECT m.id id,m.content content,m.title title,m.createAt createTime,m.updateAt updateTime,m.status status,
+            SELECT m.id id,m.content content,m.title title,m.createAt createTime,m.updateAt updateTime,m.status status,m.music music,m.label label,
+            m.picture picture,
             JSON_OBJECT('id',u.id,'nickName',u.nickName,"avatar",u.avatar_url) user,
             (SELECT COUNT(*) FROM comment c WHERE c.moment_id=m.id) commentCount,
 						IF(COUNT(t.id),JSON_ARRAYAGG(
@@ -42,7 +43,7 @@ class MomentService {
   }
   //查找一篇文章所有的信息
   async getMomentByMomentId(momentId) {
-    const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,
+    const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,m.music music,m.label label,
 JSON_OBJECT('id',u.id,'nickName',u.nickName,'avatarUrl',u.avatar_url) user,
 IF(COUNT(t.id),JSON_ARRAYAGG(
 JSON_OBJECT('id',t.id,'name',t.name)
@@ -95,6 +96,16 @@ JSON_OBJECT('id',t.id,'name',t.name)
     const [result] = await connection.execute(statement, [fileUrl, momentId]);
     return result[0];
   }
+  async updateMusicById(fileUrl, momentId) {
+    const statement = `UPDATE moment SET music =? where id = ?`;
+    const [result] = await connection.execute(statement, [fileUrl, momentId]);
+    return result[0];
+  }
+  async updateLabel(momentId) {
+    const statement = `update moment set label =1 where id=?`;
+    const [result] = await connection.execute(statement, [momentId]);
+    return result;
+  }
   async createByStatus(content, ezcontent, title, status) {
     const statement = `insert into moment (content,ezcontent,title,status) values(?,?,?,?)`;
     const [result] = await connection.execute(statement, [
@@ -112,6 +123,7 @@ FROM moment m WHERE status=? LIMIT ?,?`;
     const [result] = await connection.execute(statement, [status, offset, top]);
     return result;
   }
+  
 }
 
 module.exports = new MomentService();

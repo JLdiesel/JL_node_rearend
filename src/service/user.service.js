@@ -20,6 +20,7 @@ class UserService {
   //通过id查找用户数据
   async getUserById(id) {
     const statement = `select u.nickName nickName,u.sex sex,u.birthday birthday ,u.ownSay ownSay,u.isStream isStream,u.avatar_url avatar,
+    u.backgroundUrl bg,
 (SELECT    COUNT(follow_user_id) followCount 
 FROM follow f 
 LEFT JOIN user  u on f.follow_user_id=u.id 
@@ -145,17 +146,18 @@ WHERE  od.id=?
     const [result] = await connection.execute(statement, [oriderId]);
     return result[0];
   }
-  async getOriderListByUserId(userId) {
+  async getOriderListByUserId(userId,offset,top) {
     const statement = `SELECT IF(COUNT(od.id),JSON_ARRAYAGG(
-JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status) )
-,null) oriderList
+JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)
+),null) oriderList
     FROM user  u
 left JOIN orider od ON u.id= od.user_id
 left JOIN shop  ON shop.id=od.shop_id
 left JOIN shopcar  sc ON sc.id=od.shopCar_id
 WHERE  u.id=?
+limit ?,?
 `;
-    const [result] = await connection.execute(statement, [userId]);
+    const [result] = await connection.execute(statement, [userId,offset,top]);
     return result[0];
   }
   async getOriderListByStatus(userId, status) {

@@ -11,7 +11,7 @@ const {
   addTags,
   fileInfo,
   createByStatus,
-  getListByStatus
+  getListByStatus,musicInfo
 } = require('../controller/moment_controller');
 const {
   verifyAuth,
@@ -27,6 +27,7 @@ momentRouter.patch('/:momentId', update);
 momentRouter.get('/detaillistbyStatus/:status', detailListbyStatus);
 //获取文章图片
 momentRouter.get('/images/:filename', fileInfo);
+momentRouter.get('/music/:filename', musicInfo);
 //上传不同类型的文章
 momentRouter.post('/createByStatus/:status', createByStatus);
 //获取不同类型的文字

@@ -40,7 +40,8 @@ class MomentController {
     const { offset, size } = req.query;
     const { status } = req.params;
     const result = await momentService.getMomentList(offset, size, status);
-    res.send(result);} catch (error) {
+         res.send(result);
+       } catch (error) {
     console.log(error);
   }
   }
@@ -81,6 +82,33 @@ class MomentController {
     });} catch (error) {
     console.log(error);
   }
+    }
+  async musicInfo(req, res, next) {
+     try {
+        const { filename } = req.params;
+      const fileInfo = await fileService.getFileByFilename(filename);
+   var options = {
+      root: './uploads/video',
+      dotfiles: 'deny',
+      headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true,
+        'Content-Type': fileInfo.mimetype
+      }
+    };
+
+    var fileName = `${fileInfo.filename}`;
+
+    res.sendFile(fileName, options, function (err) {
+      if (err) {
+        next(err);
+      } else {
+        console.log('成功了');
+      }
+    });
+     } catch (error) {
+       console.log(err);
+     }
   }
     async fileInfo(req, res, next) {
        try {

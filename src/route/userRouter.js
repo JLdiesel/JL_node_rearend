@@ -41,6 +41,7 @@ userRouter.get('/:userId/avatar', avatarInfo);
 userRouter.get('/:userId/bg', avatarInfo);
 
 //判断注册
+//判断注册bg
 userRouter.use('/register', verifyUser);
 //密码转换
 userRouter.use('/register', handlePassword);
