@@ -56,7 +56,7 @@ JSON_OBJECT('id',t.id,'name',t.name)
 				LEFT JOIN recomment rec ON c.id=rec.comment_id
 				LEFT JOIN user cu ON c.user_id=cu.id
 				WHERE m.id= c.moment_id  ) comments,
- (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
+ (SELECT JSON_ARRAYAGG(CONCAT('http://120.79.86.32:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
   FROM moment m
   LEFT JOIN user u ON m.user_id =u.id
   LEFT JOIN moment_tag mt ON m.id=mt.moment_id
