@@ -43,6 +43,10 @@ fileRouter.use('/moment', PicUpload.any(), pictureResize);
 //上传文章图片
 fileRouter.post('/moment/:momentId', savePicInfo);
 fileRouter.post('/momentmusic/:momentId',videoUpload.any(), saveMusicInfo);
+//处理论坛图片中间件
+fileRouter.use('/momentInUser', PicUpload.any(), pictureResize);
+//添加论坛图片
+fileRouter.post('/momentInUser/:momentId', savePicInfo);
 
 fileRouter.use('/', verifyAuth);
 
@@ -54,9 +58,5 @@ fileRouter.use('/userBackground', AvataUpload.any(), pictureResize);
 //上传用户背景
 fileRouter.post('/userBackground', saveUserBackground);
 
-//处理论坛图片中间件
-fileRouter.use('/momentInUser', PicUpload.any(), pictureResize);
-//添加论坛图片
-fileRouter.post('/momentInUser/:momentId', savePicInfo);
 
 module.exports = fileRouter;

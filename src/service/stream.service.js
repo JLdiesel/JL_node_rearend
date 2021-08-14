@@ -30,6 +30,11 @@ class StreamService {
     const [result] = await connection.execute(statement, [filename]);
     return result[0];
   }
+  async quitStream(streamId) {
+    const statement = `delete from stream where id=?`;
+    const [result] = await connection.execute(statement, [streamId])
+    return result
+  }
 }
 
 module.exports = new StreamService();

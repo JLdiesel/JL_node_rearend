@@ -12,7 +12,7 @@ router.get('/allDongtai', function(req, res, next){
     let sqlArr = [];
     let callBack = (err,data)=>{
         if (err){
-            console.log(err);
+            console.log(err); 
         } else {
           console.log('data',data)
             res.send(

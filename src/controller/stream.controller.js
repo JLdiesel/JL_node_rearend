@@ -1,6 +1,12 @@
 const streamService = require('../service/stream.service');
 class Stream {
+  async quitStream(req, res, next) {
+    const { streamId } = req.params;
+    await streamService.quitStream(streamId);
+    res.send('退出成功')
+  }
   async addStream(req, res, next) {
+    try{
     const { id } = req.user;
     const [file] = req.files;
 
@@ -16,9 +22,14 @@ class Stream {
     await streamService.createFile(filename, mimetype, size, insertId);
     const fileUrl = `${APP_HOST}:${APP_PORT}/stream/avatar/${filename}`;
     await streamService.updateAvatar(fileUrl, insertId);
-    res.send('成功了');
+    res.send('成功了'); } catch (error) {
+      
+    }
   }
   async avatarInfo(req, res, next) {
+    try {
+      
+   
     const { filename } = req.params;
     const fileInfo = await streamService.getFileByFilename(filename);
     console.log(fileInfo);
@@ -39,7 +50,9 @@ class Stream {
       } else {
         console.log('成功了');
       }
-    });
+    }); } catch (error) {
+      
+    }
   }
 }
 
