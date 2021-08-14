@@ -15,7 +15,7 @@ class MomentController {
         code: 200
       })
     }catch (error) {
-      console.log(error);
+      next(error);
     }
   }
   async detailByMomentId(req, res, next) {
@@ -23,7 +23,7 @@ class MomentController {
     const momentId = req.params.momentId;
     const result = await momentService.getMomentByMomentId(momentId);
     res.send(result);} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
   //通过用户ID 查询该用户的文章
@@ -32,7 +32,7 @@ class MomentController {
     const { id } = req.user;
     const result = await momentService.getMomentByUserId(id);
     res.send(result);} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
     async detailListbyStatus(req, res, next) {
@@ -42,7 +42,7 @@ class MomentController {
     const result = await momentService.getMomentList(offset, size, status);
          res.send(result);
        } catch (error) {
-    console.log(error);
+    next(error);
   }
   }
     async update(req, res, next) {
@@ -52,7 +52,7 @@ class MomentController {
 
     const result = await momentService.updateById(content, momentId);
     res.send(result);} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
     async remove(req, res, next) {
@@ -60,7 +60,7 @@ class MomentController {
     const { momentId } = req.params;
     const result = await momentService.deleteById(momentId);
     res.send(result);} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
     async addTags(req, res, next) {
@@ -80,7 +80,7 @@ class MomentController {
       statusCode: 200,
       data: '给动态添加标签成功'
     });} catch (error) {
-    console.log(error);
+    next(error);
   }
     }
   async musicInfo(req, res, next) {
@@ -107,7 +107,7 @@ class MomentController {
       }
     });
      } catch (error) {
-       console.log(err);
+       next(error)
      }
   }
     async fileInfo(req, res, next) {
@@ -138,7 +138,7 @@ class MomentController {
         console.log('成功了');
       }
     })} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
     async createByStatus(req, res, next) {
@@ -152,7 +152,7 @@ class MomentController {
       status
     );
     res.send(result);} catch (error) {
-    console.log(error);
+    next(error);
   }
   }
   //通过status获取文章列表
@@ -164,7 +164,7 @@ class MomentController {
          res.send(result);
        }
        catch (error) {
-    console.log(error);
+    next(error);
   }
   }
 }
