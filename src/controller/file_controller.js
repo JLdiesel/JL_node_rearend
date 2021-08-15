@@ -18,7 +18,7 @@ class FileController {
       await userService.updateAvatarUrlById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-     next(error)
+     return   next(error)
     }
   }
   async saveUserBackground(req, res, next) {
@@ -33,7 +33,7 @@ class FileController {
       await userService.updateBackgroundById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async saveMusicInfo(req, res, next) {
@@ -142,7 +142,7 @@ class FileController {
       await videoService.updateAvatarUrlById(avatarUrl, videoId);
       res.send(`上传头像成功`);
     } catch (error) {
-      next(error);
+      return   next(error);
       
     }
   }
@@ -153,7 +153,7 @@ class FileController {
       await fileService.createVideo(filename, mimetype, size, videoId);
       res.send(`上传video内容成功`);
     } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
 }

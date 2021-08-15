@@ -5,7 +5,7 @@ class Stream {
     const { streamId } = req.params;
     await streamService.quitStream(streamId);
     res.send('退出成功') } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async addStream(req, res, next) {
@@ -26,7 +26,7 @@ class Stream {
     const fileUrl = `${APP_HOST}:${APP_PORT}/stream/avatar/${filename}`;
     await streamService.updateAvatar(fileUrl, insertId);
     res.send('成功了'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async avatarInfo(req, res, next) {
@@ -54,7 +54,7 @@ class Stream {
         console.log('成功了');
       }
     }); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
 }

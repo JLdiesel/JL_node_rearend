@@ -17,7 +17,7 @@ class UserController {
     const results = await service.login(name);
     res.send({ token, result: results });
     } catch (error) {
-        next(error)
+        return   next(error)
     }
   }
   async login(req, res, next) {
@@ -31,7 +31,7 @@ class UserController {
 
     const result = await service.login(name);
     res.send({ token, result }); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async avatarInfo(req, res, next) {
@@ -64,7 +64,7 @@ class UserController {
         console.log('成功了');
       }
     }); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async updateUserInfo(req, res, next) {
@@ -80,7 +80,7 @@ class UserController {
       ownSay
     );
     res.send('修改用户信息成功'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getUserInfo(req, res, next) {
@@ -88,7 +88,7 @@ class UserController {
     const { id } = req.user;
     const result = await userService.getUserById(id);
     res.send(result[0]); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async createFollow(req, res, next) {
@@ -97,7 +97,7 @@ class UserController {
     const { userId } = req.params;
     const result = await userService.createFollow(id, userId);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getFollow(req, res, next) {
@@ -105,7 +105,7 @@ class UserController {
     const { id } = req.user;
     const result = await userService.getFollow(id);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async removeFollow(req, res, next) {
@@ -114,7 +114,7 @@ class UserController {
     const { userId } = req.params;
     const result = await userService.removeFollow(id, userId);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getFans(req, res, next) {
@@ -122,7 +122,7 @@ class UserController {
     const { id } = req.user;
     const result = await userService.getFans(id);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async updateUserStatus(req, res, next) {
@@ -130,7 +130,7 @@ class UserController {
     const { userId } = req.params;
     const result = await userService.updateUserStatus(userId);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getUserAddress(req, res, next) {
@@ -139,7 +139,7 @@ class UserController {
 
     const result = await userService.getUserAddress(id);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async addUserAddress(req, res, next) {
@@ -148,7 +148,7 @@ class UserController {
     const { name, phoneNum, address } = req.body;
     const result = await userService.addAddress(id, name, phoneNum, address);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async removeAddress(req, res, next) {
@@ -156,7 +156,7 @@ class UserController {
     const { addressId } = req.params;
     const result = await userService.removeAddress(addressId);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async addorider(req, res, next) {
@@ -172,14 +172,14 @@ class UserController {
       howPay
     );
     res.send('订单创建成功'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getOriderByOriderId(req, res, next) {  try{
     const { oriderId } = req.params;
     const result = await userService.getOriderByOriderId(oriderId);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getOriderListByUserId(req, res, next) {  try{
@@ -187,7 +187,7 @@ class UserController {
     const {offset=0,top=10}=req.query
     const result = await userService.getOriderListByUserId(id,offset,top);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getOriderListByStatus(req, res, next) {  try{
@@ -195,7 +195,7 @@ class UserController {
     const { status } = req.params;
     const result = await userService.getOriderListByStatus(id, status);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async changeOriderStatus(req, res, next) {  try{
@@ -203,14 +203,14 @@ class UserController {
     const { status } = req.query;
     await userService.changeOriderListStatus(oriderId, status);
     res.send('更改成功'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async removeorider(req, res, next) {  try{
     const { oriderId } = req.params;
     await userService.removeOriderListById(oriderId);
     res.send('删除成功'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async changeUserDefaultAddress(req, res, next) {  try{
@@ -219,7 +219,7 @@ class UserController {
     await userService.clearDefaultAddress(id);
     await userService.changeUserDefaultAddress(addressId);
     res.send('修改默认地址成功'); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
 async getUserDefaultAddress(req, res, next) {
@@ -228,7 +228,7 @@ async getUserDefaultAddress(req, res, next) {
     const result = await userService.findDefaultAddress(id);
 
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
 }

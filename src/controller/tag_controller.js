@@ -7,7 +7,7 @@ class Tag {
 
     const result = await tagService.create(name);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
   async getTagList(req, res, next) {
@@ -15,7 +15,7 @@ class Tag {
     const { limit, offset } = req.query;
     const result = await tagService.getTagList(offset, limit);
     res.send(result); } catch (error) {
-      next(error)
+      return   next(error)
     }
   }
 }

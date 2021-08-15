@@ -1,6 +1,7 @@
 const express = require('express');
 //动态
 const momentRouter = express.Router();
+const {PicUpload}=require('../middleware/file_middleware')
 const {
   remove,
   create,
@@ -37,7 +38,7 @@ momentRouter.use('/', verifyAuth);
 //通过用户ID 查询该用户的文章
 momentRouter.get('/currentUserReviews', currentUserReviews);
 //创建文章
-momentRouter.post('/', create);
+momentRouter.post('/', PicUpload.any(),create);
 //验证修改权限
 momentRouter.use('/:momentId', verifyPermission);
 
