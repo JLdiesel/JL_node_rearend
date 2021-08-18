@@ -14,7 +14,7 @@ class shopController {
       introduce
     );
     res.send('添加商品成功');  } catch (error) {
-        return   next(error);
+        await   next(error);
     
     }
   }
@@ -24,7 +24,7 @@ class shopController {
     const { offset, top } = req.query;
     const result = await shopService.getShopLists(type, offset, top);
     res.send(result);  } catch (error) {
-        return   next(error);
+        await   next(error);
       
     }
   }
@@ -33,7 +33,7 @@ class shopController {
     const { offset, top } = req.query;
     const result = await shopService.getShopHomeList(offset, top);
     res.send(result);  } catch (error) {
-        return   next(error);
+        await   next(error);
       
     }
   }
@@ -65,7 +65,7 @@ class shopController {
         console.log('成功了');
       }
     });  } catch (error) {
-        return   next(error);
+        await   next(error);
       
     }
   }
@@ -97,7 +97,7 @@ class shopController {
         console.log('成功了');
       }
     });  } catch (error) {
-        return   next(error);
+        await   next(error);
       
     }
   }
@@ -129,7 +129,7 @@ class shopController {
         console.log('成功了');
       }
     });  } catch (error) {
-        return   next(error);
+        await   next(error);
       
     }
   }
@@ -140,7 +140,7 @@ class shopController {
       const result = await shopService.addshopcarInner(color, price, shopcarId);
       res.send('成功了');
     } catch (err) {
-     next(err);
+  await   next(err);
     }
   }
   async getShopById(req, res, next) {
@@ -149,7 +149,7 @@ class shopController {
         const result = await shopService.getShopById(shopId);
         res.send(result);
       } catch (error) {
-        return   next(error);
+        await   next(error);
       }
     }
 }

@@ -8,7 +8,7 @@ class Stream {
       await streamService.quitStream(streamId);
       res.send('退出成功');
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async getToken(req, res, next) {
@@ -54,7 +54,7 @@ class Stream {
       await streamService.updateAvatar(fileUrl, insertId);
       res.send('成功了');
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async avatarInfo(req, res, next) {
@@ -81,7 +81,7 @@ class Stream {
         }
       });
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async getStreamList(req, res, next) {

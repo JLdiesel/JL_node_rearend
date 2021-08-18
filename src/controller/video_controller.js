@@ -7,7 +7,7 @@ class VideoController {
     const { title, status,ezcontent } = req.body;
     const result=await videoService.createVideo(title, status,ezcontent);
     res.send(result); } catch (error) {
-   return   next(error)
+   await   next(error)
     }
   }
 
@@ -35,7 +35,7 @@ class VideoController {
         console.log('成功了');
       }
     }); } catch (error) {
-   return   next(error)
+   await   next(error)
     }
   }
   async avatarInfo(req, res, next) {try{
@@ -66,7 +66,7 @@ class VideoController {
        console.log('成功了');
       }
     }) } catch (error) {
-    return  next(error)
+    await  next(error)
     }
   }
   async getVideoListBystatus(req, res, next) {
@@ -76,7 +76,7 @@ class VideoController {
     const result = await videoService.getVideoListBystatus(status, offset, top);
       res.send(result);
     } catch (error) {
-    return  next(error)
+    await  next(error)
     }
   }
   async addVideoTag(req, res, next) {try{
@@ -95,7 +95,7 @@ class VideoController {
       statusCode: 200,
       data: '给动态添加标签成功'
     }); } catch (error) {
-  return    next(error)
+  await    next(error)
     }
   }
   async getVideoInnerById(req, res, next) {try{
@@ -103,7 +103,7 @@ class VideoController {
     const result = await videoService.getVideoInnerById(videoId);
     // const result2 = await comm;
     res.send(result); } catch (error) {
-   return   next(error)
+   await   next(error)
     }
   }
 }
