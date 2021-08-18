@@ -1,4 +1,6 @@
 const streamService = require('../service/stream.service');
+const { RtcTokenBuilder, RtcRole } = require('agora-access-token');
+
 class Stream {
   async quitStream(req, res, next) {
     try {
@@ -8,6 +10,30 @@ class Stream {
     } catch (error) {
       return next(error);
     }
+  }
+  async getToken(req, res, next) {
+    const appID = '29792ec3eded410facd609fb7ad76fef';
+    const appCertificate = 'ed2b1a3133144492aa549f4d404b19bd';
+    const channelName = req.params.channelName;
+    const uid = 0;
+    const role = RtcRole.PUBLISHER;
+
+    const expirationTimeInSeconds = 3600;
+
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+
+    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
+
+    // Build token with uid
+    const token = RtcTokenBuilder.buildTokenWithUid(
+      appID,
+      appCertificate,
+      channelName,
+      uid,
+      role,
+      privilegeExpiredTs
+    );
+    res.send(token);
   }
   async addStream(req, res, next) {
     try {
