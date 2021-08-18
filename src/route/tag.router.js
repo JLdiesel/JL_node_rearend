@@ -1,9 +1,5 @@
 const express = require('express');
-const {
-  create,
-  getTagList,
-  createColor
-} = require('../controller/tag_controller.js');
+const { create, getTagList } = require('../controller/tag_controller.js');
 // const {verifyAuth}=require('../middleware/auth_middleware')
 const tagRouter = express.Router();
 //获取全部标签verifyLabelExists

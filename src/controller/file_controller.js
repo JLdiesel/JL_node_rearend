@@ -18,8 +18,7 @@ class FileController {
       await userService.updateAvatarUrlById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-      console.log(error);
-      res.send();
+     return   next(error)
     }
   }
   async saveUserBackground(req, res, next) {
@@ -34,8 +33,7 @@ class FileController {
       await userService.updateBackgroundById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      return   next(error)
     }
   }
   async saveMusicInfo(req, res, next) {
@@ -56,7 +54,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
   async savePicInfo(req, res, next) {
@@ -76,7 +74,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
   async saveShopPicBannerInfo(req, res, next) {
@@ -102,7 +100,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
   async saveShopMainPicture(req, res, next) {
@@ -115,7 +113,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
   async saveShopCar(req, res, next) {
@@ -129,7 +127,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      console.log(err);
+      next(err);
     }
   }
 
@@ -144,8 +142,8 @@ class FileController {
       await videoService.updateAvatarUrlById(avatarUrl, videoId);
       res.send(`上传头像成功`);
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      return   next(error);
+      
     }
   }
   async saveVideoInfo(req, res, next) {
@@ -155,8 +153,7 @@ class FileController {
       await fileService.createVideo(filename, mimetype, size, videoId);
       res.send(`上传video内容成功`);
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      return   next(error)
     }
   }
 }

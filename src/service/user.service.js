@@ -20,14 +20,15 @@ class UserService {
   //通过id查找用户数据
   async getUserById(id) {
     const statement = `select u.nickName nickName,u.sex sex,u.birthday birthday ,u.ownSay ownSay,u.isStream isStream,u.avatar_url avatar,
-    u.backgroundUrl bg,
-(SELECT    COUNT(follow_user_id) followCount 
+    u.backgroundUrl bg,u.id id,
+(SELECT    COUNT(follow_user_id) 
 FROM follow f 
-LEFT JOIN user  u on f.follow_user_id=u.id 
-WHERE f.user_id=u.id) followCount,
-(SELECT    COUNT(user_id) fansCount
-FROM follow  f LEFT JOIN user  u on f.follow_user_id=u.id 
-WHERE follow_user_id=u.id and status = 0) fansCount
+LEFT JOIN user  us on f.follow_user_id=us.id 
+WHERE u.id=f.user_id) 
+fansCount,
+(SELECT    COUNT(user_id) 
+FROM follow  f LEFT JOIN user  us on f.follow_user_id=us.id 
+WHERE u.id=follow_user_id and status = 0) followCount
 from user u
 where id=?`;
     const result = await connection.execute(statement, [id]);
@@ -64,27 +65,32 @@ ON DUPLICATE KEY UPDATE nickName=VALUES(nickName), sex=VALUES(sex), birthday=VAL
   }
   async removeFollow(insertId, userId) {
     const statement = `DELETE FROM follow WHERE user_id=? AND follow_user_id =?`;
-    const [result] = await connection.execute(statement, [insertId, userId]);
+    const [result] = await connection.execute(statement, [userId,insertId]);
     return result;
   }
   async createFollow(insertId, userId) {
     const statement = `INSERT INTO follow (user_id,follow_user_id) VALUES (?,?)`;
-    const [result] = await connection.execute(statement, [insertId, userId]);
+    const [result] = await connection.execute(statement, [userId, insertId]);
+    console.log(result);
     return result;
   }
   async getFollow(insertId) {
-    const statement = `SELECT   COUNT(follow_user_id) followCount,JSON_ARRAYAGG(JSON_OBJECT("id",f.follow_user_id,"name",u.nickName,"avatar",u.avatar_url ))  follow
-FROM follow f LEFT JOIN user  u on f.follow_user_id=u.id 
-WHERE user_id=? and status = 0`;
+    const statement = `
+   SELECT   COUNT(follow_user_id) followCount,JSON_ARRAYAGG(JSON_OBJECT("id",u.id,"name",u.nickName,"avatar",u.avatar_url ))  follow
+FROM follow f 
+LEFT JOIN user  u on f.user_id=u.id 
+WHERE f.follow_user_id=? and status = 0`;
     const [result] = await connection.execute(statement, [insertId]);
-    return result;
+    return result[0];
   }
   async getFans(insertId) {
-    const statement = `SELECT   COUNT(user_id) fansCount,JSON_ARRAYAGG( JSON_OBJECT("id",f.follow_user_id,"name",u.nickName,"avatar",u.avatar_url )) fans
+    const statement = `
+   SELECT  COUNT(user_id) fansCount,JSON_ARRAYAGG( JSON_OBJECT("id",u.id,"name",u.nickName,"avatar",u.avatar_url )) fans
 FROM follow  f LEFT JOIN user  u on f.follow_user_id=u.id 
-WHERE follow_user_id=? and status = 0`;
+WHERE f.user_id=? and status = 0
+    `;
     const [result] = await connection.execute(statement, [insertId]);
-    return result;
+    return result[0];
   }
   async updateUserStatus(userId) {
     const statement = `UPDATE user set isStream =0 where id=?`;

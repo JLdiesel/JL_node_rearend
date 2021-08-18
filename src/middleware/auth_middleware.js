@@ -37,11 +37,11 @@ const verifyPermission = async (req, res, next) => {
 
   const momentId = req.params[key];
   const tableName = key.replace('Id', '');
-  const { insertId } = req.user;
+  const { id } = req.user;
   const isPermission = await authService.checkResource(
     tableName,
     momentId,
-    insertId
+    id 
   );
   if (!isPermission) {
     next(new Error(errType.NO_AUTH_CHANGE_MOMENT));

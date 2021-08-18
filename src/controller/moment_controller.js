@@ -8,22 +8,37 @@ class MomentController {
       const userID = req.user.id;
       const { content, title, status } = req.body;
       //讲输入信息传入到数据库
-      const result = await momentService.create(userID, content, title, status);
+      const [result] = await momentService.create(userID, content, title, status);
+      const files = req.files;
+      console.log(req.body);
+      const { insertId } = result;
+      //存储一张首页图片到文章详情中
+      const [file] = files; 
+      const { filename } = file;
+      const fileUrl = `${APP_HOST}:${APP_PORT}/moment/images/${filename}`;
+      await momentService.updatePictureById(fileUrl, insertId);
+      //2 将所有的文件信息 保存到数据库中
+      for (const file of files) {
+        const { filename, mimetype, size } = file;
+        await fileService.createFile(filename, mimetype, size, insertId);
+      }
       res.send({
-        id: userID,
+        id: userID, 
         message: '当前用户发表评论成功',
         code: 200
       })
     }catch (error) {
-      console.log(error);
+      return   next(error);
     }
   }
   async detailByMomentId(req, res, next) {
        try {
-    const momentId = req.params.momentId;
-    const result = await momentService.getMomentByMomentId(momentId);
-    res.send(result);} catch (error) {
-    console.log(error);
+    const {momentId} = req.params;
+         const result = await momentService.getMomentByMomentId(momentId);
+    
+         res.send(result);
+       } catch (error) {
+    return   next(error);
   }
   }
   //通过用户ID 查询该用户的文章
@@ -32,8 +47,17 @@ class MomentController {
     const { id } = req.user;
     const result = await momentService.getMomentByUserId(id);
     res.send(result);} catch (error) {
-    console.log(error);
+    return   next(error);
   }
+    }
+  async getUserMomentById(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const result = await momentService.getMomentByUserId(userId);
+      res.send(result);
+    } catch (error) {
+      return next(error);
+    }
   }
     async detailListbyStatus(req, res, next) {
        try {
@@ -42,7 +66,7 @@ class MomentController {
     const result = await momentService.getMomentList(offset, size, status);
          res.send(result);
        } catch (error) {
-    console.log(error);
+    return   next(error);
   }
   }
     async update(req, res, next) {
@@ -52,15 +76,16 @@ class MomentController {
 
     const result = await momentService.updateById(content, momentId);
     res.send(result);} catch (error) {
-    console.log(error);
+    return   next(error);
   }
   }
     async remove(req, res, next) {
        try {
     const { momentId } = req.params;
     const result = await momentService.deleteById(momentId);
-    res.send(result);} catch (error) {
-    console.log(error);
+         res.send(result);
+       } catch (error) {
+    return   next(error);
   }
   }
     async addTags(req, res, next) {
@@ -80,7 +105,7 @@ class MomentController {
       statusCode: 200,
       data: '给动态添加标签成功'
     });} catch (error) {
-    console.log(error);
+    return   next(error);
   }
     }
   async musicInfo(req, res, next) {
@@ -107,7 +132,7 @@ class MomentController {
       }
     });
      } catch (error) {
-       console.log(err);
+       return   next(error)
      }
   }
     async fileInfo(req, res, next) {
@@ -138,7 +163,7 @@ class MomentController {
         console.log('成功了');
       }
     })} catch (error) {
-    console.log(error);
+    return   next(error);
   }
   }
     async createByStatus(req, res, next) {
@@ -152,7 +177,7 @@ class MomentController {
       status
     );
     res.send(result);} catch (error) {
-    console.log(error);
+    return   next(error);
   }
   }
   //通过status获取文章列表
@@ -164,7 +189,7 @@ class MomentController {
          res.send(result);
        }
        catch (error) {
-    console.log(error);
+    return   next(error);
   }
   }
 }

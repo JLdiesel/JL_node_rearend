@@ -15,8 +15,10 @@ class MomentService {
   //通过用户id查询其发表的文章
   async getMomentByUserId(id) {
     const statement =
-      'SELECT user_id userId,JSON_ARRAYAGG(JSON_OBJECT("momentId",id,"content",content,"title",title,"cover",picture,"createAt",createAt)) contentArr FROM moment GROUP BY user_id HAVING user_id=?;';
-    const result = await connection.execute(statement, [id]);
+      `SELECT JSON_ARRAYAGG(JSON_OBJECT("momentId",id,"content",content,"title",title,"cover",picture,"createAt",createAt,"music",music,"label",label,"images", (SELECT JSON_ARRAYAGG(CONCAT("http://120.79.86.32:3000/moment/images/",file.filename)) FROM file WHERE m.id=file.moment_id))) contentArr
+	FROM moment m
+where user_id=? and status=0`;
+    const [result] = await connection.execute(statement, [id]);
     return result[0];
   }
 
@@ -24,7 +26,7 @@ class MomentService {
   async getMomentList(offset, size, status) {
     const statement = `
             SELECT m.id id,m.content content,m.title title,m.createAt createTime,m.updateAt updateTime,m.status status,m.music music,m.label label,
-            m.picture picture,
+            m.picture picture,m.music music,m.label label,
             JSON_OBJECT('id',u.id,'nickName',u.nickName,"avatar",u.avatar_url) user,
             (SELECT COUNT(*) FROM comment c WHERE c.moment_id=m.id) commentCount,
 						IF(COUNT(t.id),JSON_ARRAYAGG(
@@ -56,15 +58,16 @@ JSON_OBJECT('id',t.id,'name',t.name)
 				LEFT JOIN recomment rec ON c.id=rec.comment_id
 				LEFT JOIN user cu ON c.user_id=cu.id
 				WHERE m.id= c.moment_id  ) comments,
- (SELECT JSON_ARRAYAGG(CONCAT('http://192.168.50.146:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
+ (SELECT JSON_ARRAYAGG(CONCAT('http://120.79.86.32:3000/moment/images/',file.filename)) FROM file WHERE m.id=file.moment_id) images 
   FROM moment m
   LEFT JOIN user u ON m.user_id =u.id
   LEFT JOIN moment_tag mt ON m.id=mt.moment_id
   LEFT JOIN tag t ON mt.tag_id=t.id
   WHERE m.id=?
 `;
-    const result = await connection.execute(statement, [momentId]);
-    return result[0][0];
+    const [result] = await connection.execute(statement, [momentId]);
+     
+    return result[0];
   }
   //更新文章内容
   async updateById(content, id) {

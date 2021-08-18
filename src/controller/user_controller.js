@@ -4,9 +4,10 @@ const { SERCET_KYE } = require('../app/config');
 const fileService = require('../service/file.service');
 const userService = require('../service/user.service');
 class UserController {
+  
   async create(req, res, next) {
     const user = req.body;
-    // try {
+    try {
     const result = await service.create(user);
     console.log(result.id);
     const { name, password } = user;
@@ -16,33 +17,26 @@ class UserController {
     });
     const results = await service.login(name);
     res.send({ token, result: results });
-    // res.send('1223')
-
-    // } catch (error) {
-    //     next(error)
-    // }
+    } catch (error) {
+        return   next(error)
+    }
   }
   async login(req, res, next) {
+    try{
     const { id, name, password } = req.user;
 
     //秘钥发布
     const token = JWT.sign({ id, name, password }, SERCET_KYE, {
       expiresIn: 60 * 60 * 24 * 7
     });
-    /*      //公钥解析
-             const authorization = req.headers.authorization
-             const token = authorization.replace('Bearer ', '')
-             try {
-                 const result = JWT.verify(token, SERCET_KYE)
-                 console.log(result);
-                 res.send(result)
-             } catch (error) {
-                 res.send(error)
-             } */
+
     const result = await service.login(name);
-    res.send({ token, result });
+    res.send({ token, result }); } catch (error) {
+      return   next(error)
+    }
   }
   async avatarInfo(req, res, next) {
+    try{
     //1.用户的头像是哪一个文件
     const { userId } = req.params;
     const avaterInfo = await fileService.getAvatarByUserId(userId);
@@ -70,12 +64,15 @@ class UserController {
       } else {
         console.log('成功了');
       }
-    });
+    }); } catch (error) {
+      return   next(error)
+    }
   }
   async updateUserInfo(req, res, next) {
+    try{
     const { id } = req.user;
     const { nickName, sex, birthday, ownSay } = req.body;
-    console.log(req.body);
+  
     const result = await userService.updateUserInfo(
       id,
       nickName,
@@ -83,58 +80,104 @@ class UserController {
       birthday,
       ownSay
     );
-    res.send('修改用户信息成功');
+    res.send('修改用户信息成功'); } catch (error) {
+      return   next(error)
+    }
   }
   async getUserInfo(req, res, next) {
+    try{
     const { id } = req.user;
     const result = await userService.getUserById(id);
-    res.send(result[0]);
+    res.send(result[0]); } catch (error) {
+      return   next(error)
+    }
+  }
+  async getUserInfoById(req, res, next) {
+    try { 
+      const { userId } = req.params;
+      console.log(userId);
+      const result = await userService.getUserById(userId);
+      res.send(result[0])
+    } catch (error) {
+      return next(error);
+    }
   }
   async createFollow(req, res, next) {
-    const { id } = req.user;
+    try {
+      
+      const { id } = req.user;
+      
     const { userId } = req.params;
-    const result = await userService.createFollow(id, userId);
-    res.send(result);
+      const result = await userService.createFollow(id, userId);
+      res.send(result);
+    } catch (error) {
+      return   next(error)
+    }
   }
   async getFollow(req, res, next) {
+    try{
     const { id } = req.user;
     const result = await userService.getFollow(id);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async removeFollow(req, res, next) {
+    try{
     const { id } = req.user;
     const { userId } = req.params;
     const result = await userService.removeFollow(id, userId);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async getFans(req, res, next) {
-    const { id } = req.user;
-    const result = await userService.getFans(id);
-    res.send(result);
+    try{
+      const { id } = req.user;
+      console.log(id);
+      const result = await userService.getFans(id);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async updateUserStatus(req, res, next) {
+    try{
     const { userId } = req.params;
     const result = await userService.updateUserStatus(userId);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async getUserAddress(req, res, next) {
+    try{
     const { id } = req.user;
 
     const result = await userService.getUserAddress(id);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async addUserAddress(req, res, next) {
+    try{
     const { id } = req.user;
     const { name, phoneNum, address } = req.body;
-    const result = await userService.addAddress(id, name, phoneNum, address);
-    res.send(result);
+      const result = await userService.addAddress(id, name, phoneNum, address);
+        await userService.clearDefaultAddress(id);
+    await userService.changeUserDefaultAddress(result.insertId);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async removeAddress(req, res, next) {
+    try{
     const { addressId } = req.params;
     const result = await userService.removeAddress(addressId);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
   async addorider(req, res, next) {
+    try{
     const { id } = req.user;
     const { shopId, shopCarId, addressId, count, howPay } = req.body;
     const result = await userService.addOrider(
@@ -145,48 +188,65 @@ class UserController {
       count,
       howPay
     );
-    res.send('订单创建成功');
+    res.send('订单创建成功'); } catch (error) {
+      return   next(error)
+    }
   }
-  async getOriderByOriderId(req, res, next) {
+  async getOriderByOriderId(req, res, next) {  try{
     const { oriderId } = req.params;
     const result = await userService.getOriderByOriderId(oriderId);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
-  async getOriderListByUserId(req, res, next) {
+  async getOriderListByUserId(req, res, next) {  try{
     const { id } = req.user;
     const {offset=0,top=10}=req.query
     const result = await userService.getOriderListByUserId(id,offset,top);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
-  async getOriderListByStatus(req, res, next) {
+  async getOriderListByStatus(req, res, next) {  try{
     const { id } = req.user;
     const { status } = req.params;
     const result = await userService.getOriderListByStatus(id, status);
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
-  async changeOriderStatus(req, res, next) {
+  async changeOriderStatus(req, res, next) {  try{
     const { oriderId } = req.params;
     const { status } = req.query;
     await userService.changeOriderListStatus(oriderId, status);
-    res.send('更改成功');
+    res.send('更改成功'); } catch (error) {
+      return   next(error)
+    }
   }
-  async removeorider(req, res, next) {
+  async removeorider(req, res, next) {  try{
     const { oriderId } = req.params;
     await userService.removeOriderListById(oriderId);
-    res.send('删除成功');
+    res.send('删除成功'); } catch (error) {
+      return   next(error)
+    }
   }
-  async changeUserDefaultAddress(req, res, next) {
+  async changeUserDefaultAddress(req, res, next) {  try{
     const { id } = req.user;
     const { addressId } = req.params;
     await userService.clearDefaultAddress(id);
     await userService.changeUserDefaultAddress(addressId);
-    res.send('修改默认地址成功');
+    res.send('修改默认地址成功'); } catch (error) {
+      return   next(error)
+    }
   }
-  async getUserDefaultAddress(req, res, next) {
+async getUserDefaultAddress(req, res, next) {
+  try{
     const { id } = req.user;
     const result = await userService.findDefaultAddress(id);
 
-    res.send(result);
+    res.send(result); } catch (error) {
+      return   next(error)
+    }
   }
 }
 module.exports = new UserController();

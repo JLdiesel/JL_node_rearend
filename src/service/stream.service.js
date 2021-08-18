@@ -35,8 +35,9 @@ class StreamService {
     const [result] = await connection.execute(statement, [offset, top]);
     return result;
   }
-  async deleteStreamById(streamId) {
-    const statement = `delete from  stream where id =?`;
+
+  async quitStream(streamId) {
+    const statement = `delete from stream where id=?`;
     const [result] = await connection.execute(statement, [streamId]);
     return result;
   }
