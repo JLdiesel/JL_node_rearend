@@ -33,9 +33,11 @@ class MomentController {
   }
   async detailByMomentId(req, res, next) {
        try {
-    const momentId = req.params.momentId;
-    const result = await momentService.getMomentByMomentId(momentId);
-    res.send(result);} catch (error) {
+    const {momentId} = req.params;
+         const result = await momentService.getMomentByMomentId(momentId);
+    
+         res.send(result);
+       } catch (error) {
     return   next(error);
   }
   }
@@ -47,6 +49,15 @@ class MomentController {
     res.send(result);} catch (error) {
     return   next(error);
   }
+    }
+  async getUserMomentById(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const result = await momentService.getMomentByUserId(userId);
+      res.send(result);
+    } catch (error) {
+      return next(error);
+    }
   }
     async detailListbyStatus(req, res, next) {
        try {

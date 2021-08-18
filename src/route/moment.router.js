@@ -12,7 +12,7 @@ const {
   addTags,
   fileInfo,
   createByStatus,
-  getListByStatus,musicInfo
+  getListByStatus,musicInfo,getUserMomentById
 } = require('../controller/moment_controller');
 const {
   verifyAuth,
@@ -33,10 +33,11 @@ momentRouter.get('/music/:filename', musicInfo);
 momentRouter.post('/createByStatus/:status', createByStatus);
 //获取不同类型的文字
 momentRouter.get('/getListByStatus/:status', getListByStatus);
-
+momentRouter.get('/getUserMomentById/:userId', getUserMomentById);
 momentRouter.use('/', verifyAuth);
 //通过用户ID 查询该用户的文章
 momentRouter.get('/currentUserReviews', currentUserReviews);
+
 //创建文章
 momentRouter.post('/', PicUpload.any(),create);
 //验证修改权限

@@ -4,6 +4,7 @@ const { SERCET_KYE } = require('../app/config');
 const fileService = require('../service/file.service');
 const userService = require('../service/user.service');
 class UserController {
+  
   async create(req, res, next) {
     const user = req.body;
     try {
@@ -71,7 +72,7 @@ class UserController {
     try{
     const { id } = req.user;
     const { nickName, sex, birthday, ownSay } = req.body;
-    console.log(req.body);
+  
     const result = await userService.updateUserInfo(
       id,
       nickName,
@@ -91,12 +92,25 @@ class UserController {
       return   next(error)
     }
   }
+  async getUserInfoById(req, res, next) {
+    try { 
+      const { userId } = req.params;
+      console.log(userId);
+      const result = await userService.getUserById(userId);
+      res.send(result[0])
+    } catch (error) {
+      return next(error);
+    }
+  }
   async createFollow(req, res, next) {
-    try{
-    const { id } = req.user;
+    try {
+      
+      const { id } = req.user;
+      
     const { userId } = req.params;
-    const result = await userService.createFollow(id, userId);
-    res.send(result); } catch (error) {
+      const result = await userService.createFollow(id, userId);
+      res.send(result);
+    } catch (error) {
       return   next(error)
     }
   }
@@ -119,8 +133,9 @@ class UserController {
   }
   async getFans(req, res, next) {
     try{
-    const { id } = req.user;
-    const result = await userService.getFans(id);
+      const { id } = req.user;
+      console.log(id);
+      const result = await userService.getFans(id);
     res.send(result); } catch (error) {
       return   next(error)
     }
@@ -146,7 +161,9 @@ class UserController {
     try{
     const { id } = req.user;
     const { name, phoneNum, address } = req.body;
-    const result = await userService.addAddress(id, name, phoneNum, address);
+      const result = await userService.addAddress(id, name, phoneNum, address);
+        await userService.clearDefaultAddress(id);
+    await userService.changeUserDefaultAddress(result.insertId);
     res.send(result); } catch (error) {
       return   next(error)
     }

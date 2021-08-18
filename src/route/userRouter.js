@@ -27,7 +27,8 @@ const {
   changeOriderStatus,
   removeorider,
   changeUserDefaultAddress,
-  getUserDefaultAddress
+  getUserDefaultAddress,
+  getUserInfoById
 } = require('../controller/user_controller');
 const { verifyAuth } = require('../middleware/auth_middleware');
 //管理员更改用户直播权限
@@ -47,9 +48,11 @@ userRouter.use('/register', verifyUser);
 userRouter.use('/register', handlePassword);
 //注册用户 同时登录
 userRouter.post('/register', create);
+userRouter.get('/userInfoById/:userId', getUserInfoById);
 userRouter.use('/', verifyAuth);
 //获取用户信息
 userRouter.get('/', getUserInfo);
+
 //关注粉丝
 userRouter.post('/follow/:userId', createFollow);
 userRouter.get('/fans', getFans);

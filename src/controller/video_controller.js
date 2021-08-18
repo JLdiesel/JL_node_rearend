@@ -4,9 +4,9 @@ const videoService = require('../service/video.service');
 
 class VideoController {
   async createVideo(req, res, next) {try{
-    const { title, status } = req.body;
-    await videoService.createVideo(title, status);
-    res.send('创建成功'); } catch (error) {
+    const { title, status,ezcontent } = req.body;
+    const result=await videoService.createVideo(title, status,ezcontent);
+    res.send(result); } catch (error) {
    return   next(error)
     }
   }

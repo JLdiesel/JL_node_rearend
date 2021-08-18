@@ -7,13 +7,14 @@ class VideoService {
     return result;
   }
 
-  async createVideo(title, status) {
-    const statement = `Insert into video (title,status) values (?,?)  `;
-    const [result] = await connection.execute(statement, [title, status]);
+  async createVideo(title, status,ezcontent) {
+    const statement = `Insert into video (title,status,ezcontent) values (?,?,?)  `;
+    const [result] = await connection.execute(statement, [title, status,ezcontent]);
     return result;
   }
   async getVideoListBystatus(status, offset, top) {
-    const statement = `SELECT  v.id id,v.title title,v.avatar avatar ,v.watchNum watchNum,v.createAt createAt,v.status status,JSON_ARRAYAGG(t.name) tag
+    const statement = `SELECT  v.id id,v.title title,v.avatar avatar ,v.watchNum watchNum,v.createAt createAt,v.status status,JSON_ARRAYAGG(t.name) tag,
+    v.ezcontent ezcontent
 FROM video v 
 LEFT JOIN video_tag vt on v.id=vt.video_id
 left JOIN tag t ON vt.tag_id=t.id  
