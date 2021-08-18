@@ -7,7 +7,8 @@ const {
   SHOP_PATH,
   VIDEO_AVATAR,
   VIDEO_PATH,
-  STREAM_AVATAR
+  STREAM_AVATAR,
+  ROLE_AVATAR
 } = require('../constants/file-path');
 const AvataStorage = multer.diskStorage({
   destination: AVATAR_PATH
@@ -83,6 +84,19 @@ const streamAvatarUpload = multer({
   storage: streamAvatarStorage
 });
 
+const roleAvatarStorage = multer.diskStorage({
+  destination: ROLE_AVATAR
+  /*  filename: (req, file, cb) => {
+        //第二个字段传文件名
+        cb(null, Date.now() + path.extname(file.originalname));
+    }, */
+});
+
+const roleAvatarUpload = multer({
+  // dest: './uploads/'
+  storage: roleAvatarStorage
+});
+
 const pictureResize = async (req, res, next) => {
   const files = req.files;
   //对图像进行处理 (sharp(path).resize)/jimp
@@ -103,5 +117,6 @@ module.exports = {
   videoUpload,
   videoAvatarUpload,
   streamAvatarUpload,
+  roleAvatarUpload,
   pictureResize
 };

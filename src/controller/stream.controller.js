@@ -41,6 +41,16 @@ class Stream {
       }
     });
   }
+  async getStreamList(req, res, next) {
+    const { offset = 0, top = 10 } = req.query;
+    const result = await streamService.getStreamList(offset, top);
+    res.send(result);
+  }
+  async deleteStream(req, res, next) {
+    const { streamId } = req.params;
+    await streamService.deleteStreamById(streamId);
+    res.send('退出直播');
+  }
 }
 
 module.exports = new Stream();
