@@ -106,6 +106,16 @@ class VideoController {
    await   next(error)
     }
   }
+  async getVideoCommentById(req, res, next) {
+    try {
+      const { videoId } = req.params;
+      const result = await videoService.getVideoCommentById(videoId);
+      res.send(result)
+    } catch (err) {
+      await next(err)
+    }
+
+  }
 }
 
 module.exports = new VideoController();

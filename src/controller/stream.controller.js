@@ -14,7 +14,7 @@ class Stream {
   async getToken(req, res, next) {
     const appID = '29792ec3eded410facd609fb7ad76fef';
     const appCertificate = 'ed2b1a3133144492aa549f4d404b19bd';
-    const channelName = req.params.channelName;
+    const {channelName} = req.params;
     const uid = 0;
     const role = RtcRole.PUBLISHER;
 
@@ -52,7 +52,7 @@ class Stream {
       await streamService.createFile(filename, mimetype, size, insertId);
       const fileUrl = `${APP_HOST}:${APP_PORT}/stream/avatar/${filename}`;
       await streamService.updateAvatar(fileUrl, insertId);
-      res.send('成功了');
+           res.send(result);
     } catch (error) {
       await next(error);
     }

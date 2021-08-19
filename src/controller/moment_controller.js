@@ -35,7 +35,6 @@ class MomentController {
        try {
     const {momentId} = req.params;
          const result = await momentService.getMomentByMomentId(momentId);
-    
          res.send(result);
        } catch (error) {
     await   next(error);
@@ -61,7 +60,7 @@ class MomentController {
   }
     async detailListbyStatus(req, res, next) {
        try {
-    const { offset, size } = req.query;
+    const { offset=0, size=5 } = req.query;
     const { status } = req.params;
     const result = await momentService.getMomentList(offset, size, status);
          res.send(result);

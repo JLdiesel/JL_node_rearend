@@ -31,7 +31,12 @@ class StreamService {
     return result[0];
   }
   async getStreamList(offset, top) {
-    const statement = `select * from stream limit ?,?`;
+    const statement = `SELECT  st.id id ,st.avatar avatar ,st.name name,st.token token,st.cannalName cannalName,
+	JSON_OBJECT("nickName",u.nickName,"avatar",u.avatar_url) user
+	from stream 	st
+	LEFT JOIN user u on u.id=st.user_id
+	group by st.id
+  limit ?,?`;
     const [result] = await connection.execute(statement, [offset, top]);
     return result;
   }
