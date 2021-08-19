@@ -39,7 +39,6 @@ class Stream {
     try {
       const { id } = req.user;
       const [file] = req.files;
-
       const { name, token, cannalName } = req.body;
       const result = await streamService.createStream(
         id,
@@ -52,7 +51,7 @@ class Stream {
       await streamService.createFile(filename, mimetype, size, insertId);
       const fileUrl = `${APP_HOST}:${APP_PORT}/stream/avatar/${filename}`;
       await streamService.updateAvatar(fileUrl, insertId);
-      res.send('成功了');
+      res.send(result);
     } catch (error) {
       return next(error);
     }
