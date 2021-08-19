@@ -9,7 +9,7 @@ class CommentController {
     const result = await commentService.create(momentId, content, id);
     res.send(result);
     } catch (error) {
-     return   next(error);
+     await   next(error);
     }
    
   }
@@ -21,7 +21,7 @@ class CommentController {
     const result = await commentService.reply(content, id, commentId);
     res.send(result);
     } catch (error) {
-      return   next(error);
+      await   next(error);
     }
    
   }
@@ -31,7 +31,7 @@ class CommentController {
     const result = await commentService.getRecomment(commentId);
     res.send(result);
     } catch (error) {
-    return   next(error);
+    await   next(error);
     }
     
   }
@@ -42,7 +42,7 @@ class CommentController {
     const result = await commentService.update(commentId, content);
     res.send(result);
     } catch (error) {
-     return   next(error);
+     await   next(error);
     }
    
   }
@@ -52,7 +52,7 @@ class CommentController {
     res.send(result);
       
     } catch (error) {
-    return   next(error);
+    await   next(error);
     }
   }
   async list(req, res, next) {
@@ -61,7 +61,7 @@ class CommentController {
     const result = await commentService.getCommentByMomentId(momentId);
     res.send(result);
     } catch (error) {
-      return   next(error);
+      await   next(error);
     }
   
   }
@@ -77,7 +77,7 @@ class CommentController {
     );
     res.send(result);
     } catch (error) {
-     return   next(error);
+     await   next(error);
     }
   }
   async replyVideoComment(req, res, next) {
@@ -92,7 +92,7 @@ class CommentController {
     );
     res.send(result);
    } catch (error) {
-   return   next(error);
+   await   next(error);
    }
   }
   async getVideoRecomment(req, res, next) {
@@ -101,7 +101,7 @@ class CommentController {
     const result = await commentService.getVideoRecomment(commentId);
     res.send(result);
     } catch (error) {
-      return   next(error);
+      await   next(error);
     }
   }
 }

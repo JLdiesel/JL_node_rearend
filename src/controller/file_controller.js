@@ -18,7 +18,7 @@ class FileController {
       await userService.updateAvatarUrlById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-     return   next(error)
+     await  next(error)
     }
   }
   async saveUserBackground(req, res, next) {
@@ -33,7 +33,7 @@ class FileController {
       await userService.updateBackgroundById(avatarUrl, id);
       res.send(`上传头像成功`);
     } catch (error) {
-      return   next(error)
+      await   next(error)
     }
   }
   async saveMusicInfo(req, res, next) {
@@ -54,7 +54,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      next(err);
+   await      next(err);
     }
   }
   async savePicInfo(req, res, next) {
@@ -74,7 +74,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      next(err);
+    await     next(err);
     }
   }
   async saveShopPicBannerInfo(req, res, next) {
@@ -100,7 +100,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      next(err);
+    await     next(err);
     }
   }
   async saveShopMainPicture(req, res, next) {
@@ -113,7 +113,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      next(err);
+      await   next(err);
     }
   }
   async saveShopCar(req, res, next) {
@@ -127,7 +127,7 @@ class FileController {
       }
       res.send('上传完成');
     } catch (err) {
-      next(err);
+     await    next(err);
     }
   }
 
@@ -142,7 +142,7 @@ class FileController {
       await videoService.updateAvatarUrlById(avatarUrl, videoId);
       res.send(`上传头像成功`);
     } catch (error) {
-      return   next(error);
+      await   next(error);
       
     }
   }
@@ -153,7 +153,7 @@ class FileController {
       await fileService.createVideo(filename, mimetype, size, videoId);
       res.send(`上传video内容成功`);
     } catch (error) {
-      return   next(error)
+      await   next(error)
     }
   }
 }

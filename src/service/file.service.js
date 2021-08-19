@@ -86,7 +86,16 @@ class FileService {
     ]);
     return result[0];
   }
-
+  async createApply(filename, mimetype, size, applyId) {
+    const statement = `insert into apply_file (filename,mimetype,size,apply_id) values (?,?,?,?)`;
+    const [result] = await connection.execute(statement, [
+      filename,
+      mimetype,
+      size,
+      applyId
+    ]);
+    return result[0];
+  }
   async getFileByFilename(filename) {
     const statement = `SELECT * FROM file WHERE filename=?`;
     const [result] = await connection.execute(statement, [filename]);

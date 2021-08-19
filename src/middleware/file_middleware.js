@@ -8,7 +8,8 @@ const {
   VIDEO_AVATAR,
   VIDEO_PATH,
   STREAM_AVATAR,
-  ROLE_AVATAR
+  ROLE_AVATAR,
+  APPLY_PATH
 } = require('../constants/file-path');
 const AvataStorage = multer.diskStorage({
   destination: AVATAR_PATH
@@ -21,6 +22,18 @@ const AvataStorage = multer.diskStorage({
 const AvataUpload = multer({
   // dest: './uploads/'
   storage: AvataStorage
+});
+const applyStorage = multer.diskStorage({
+  destination: APPLY_PATH
+  /*  filename: (req, file, cb) => {
+        //第二个字段传文件名
+        cb(null, Date.now() + path.extname(file.originalname));
+    }, */
+});
+
+const applyUpoads = multer({
+  // dest: './uploads/'
+  storage: applyStorage
 });
 const PicStorage = multer.diskStorage({
   destination: PICTURE_PATH
@@ -118,5 +131,6 @@ module.exports = {
   videoAvatarUpload,
   streamAvatarUpload,
   roleAvatarUpload,
+  applyUpoads,
   pictureResize
 };

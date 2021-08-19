@@ -65,7 +65,7 @@ ON DUPLICATE KEY UPDATE nickName=VALUES(nickName), sex=VALUES(sex), birthday=VAL
   }
   async removeFollow(insertId, userId) {
     const statement = `DELETE FROM follow WHERE user_id=? AND follow_user_id =?`;
-    const [result] = await connection.execute(statement, [userId,insertId]);
+    const [result] = await connection.execute(statement, [userId, insertId]);
     return result;
   }
   async createFollow(insertId, userId) {
@@ -152,7 +152,7 @@ WHERE  od.id=?
     const [result] = await connection.execute(statement, [oriderId]);
     return result[0];
   }
-  async getOriderListByUserId(userId,offset,top) {
+  async getOriderListByUserId(userId, offset, top) {
     const statement = `SELECT IF(COUNT(od.id),JSON_ARRAYAGG(
 JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)
 ),null) oriderList
@@ -163,7 +163,7 @@ left JOIN shopcar  sc ON sc.id=od.shopCar_id
 WHERE  u.id=?
 limit ?,?
 `;
-    const [result] = await connection.execute(statement, [userId,offset,top]);
+    const [result] = await connection.execute(statement, [userId, offset, top]);
     return result[0];
   }
   async getOriderListByStatus(userId, status) {
@@ -202,6 +202,16 @@ limit ?,?
     const statement = `select * from  useraddress where user_id =? and isdefault=1`;
     const [result] = await connection.execute(statement, [userId]);
     return result[0];
+  }
+
+  async createApply(realName, idCard, id) {
+    const statement = `insert into apply (realName,idCard,user_id) values (?,?,?)`;
+    const [result] = await connection.execute(statement, [
+      realName,
+      idCard,
+      id
+    ]);
+    return result;
   }
 }
 module.exports = new UserService();

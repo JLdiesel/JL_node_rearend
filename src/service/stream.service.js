@@ -31,7 +31,7 @@ class StreamService {
     return result[0];
   }
   async getStreamList(offset, top) {
-    const statement = `	SELECT  st.id id ,st.avatar avatar ,st.name name,st.token token,st.cannalName cannalName,
+    const statement = `SELECT  st.id id ,st.avatar avatar ,st.name name,st.token token,st.cannalName cannalName,
 	JSON_OBJECT("nickName",u.nickName,"avatar",u.avatar_url) user
 	from stream 	st
 	LEFT JOIN user u on u.id=st.user_id

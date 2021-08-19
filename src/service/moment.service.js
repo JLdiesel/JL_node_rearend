@@ -66,7 +66,7 @@ JSON_OBJECT('id',t.id,'name',t.name)
   WHERE m.id=?
 `;
     const [result] = await connection.execute(statement, [momentId]);
-     
+     console.log(result);
     return result[0];
   }
   //更新文章内容

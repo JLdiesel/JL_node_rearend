@@ -37,20 +37,26 @@ LIMIT ?,? ;`;
     return result[0];
   }
   async getVideoInnerById(videoId) {
-    const statement = `SELECT v.title title , v.watchNum watchNum  , v.avatar avatar ,CONCAT('http://120.79.86.32:3000/video/',vf.video_id,'/file') video,vf.likeNum likeNum,vf.collectionNum collectionNum,vf.createAt createAt,
-(SELECT IF(COUNT(c.id),JSON_ARRAYAGG(
-        JSON_OBJECT('id',c.id,'content',c.content,'createTime',c.createAt,
-        'user',JSON_OBJECT('id',u.id,'name',u.name,'avatarUrl',u.avatar_url))
-        ) ,NULL) 
-				FROM video_comment c
-				LEFT JOIN user u ON c.user_id=u.id
-				WHERE vf.video_id=c.video_id ) comments
+    const statement = `SELECT v.title title , v.watchNum watchNum  , v.avatar avatar ,CONCAT('http://120.79.86.32:3000/video/',vf.video_id,'/file') video,vf.likeNum likeNum,vf.collectionNum collectionNum,vf.createAt createAt
 
 FROM video_file  vf
 LEFT JOIN video v ON  vf.video_id=v.id 
 WHERE vf.video_id=?`;
     const [result] = await connection.execute(statement, [videoId]);
     return result[0];
+  }
+  async getVideoCommentById(videoId) {
+    const statement =`	SELECT vc.content content,vc.createAt createAt,vc.id id,JSON_OBJECT("nickName",u.nickName,"avatar",u.avatar_url,"id",u.id) user ,
+	(SELECT  JSON_ARRAYAGG(JSON_OBJECT("id",vr.id,"content",vr.content,"createAt",vr.createAt,"user",JSON_OBJECT("nickName",us.nickName,"avatar",us.avatar_url,"id",us.id)))
+from video_recomment vr
+LEFT JOIN user us on  vr.user_id=us.id
+WHERE vc.id=vr.video_comment_id
+)  recomment 
+	from video_comment vc
+	LEFT JOIN user u ON  vc.user_id=u.id
+	WHERE vc.video_id =?`
+    const [result] =await connection.execute(statement, [videoId])
+    return result
   }
 }
 

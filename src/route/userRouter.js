@@ -5,6 +5,7 @@ const {
   handlePassword,
   loginMiddleware
 } = require('../middleware/user_middeware');
+const { applyUpoads } = require('../middleware/file_middleware');
 const userRouter = express.Router();
 const {
   create,
@@ -28,7 +29,8 @@ const {
   removeorider,
   changeUserDefaultAddress,
   getUserDefaultAddress,
-  getUserInfoById
+  getUserInfoById,
+  applySteam
 } = require('../controller/user_controller');
 const { verifyAuth } = require('../middleware/auth_middleware');
 //管理员更改用户直播权限
@@ -49,7 +51,10 @@ userRouter.use('/register', handlePassword);
 //注册用户 同时登录
 userRouter.post('/register', create);
 userRouter.get('/userInfoById/:userId', getUserInfoById);
+//鉴权
 userRouter.use('/', verifyAuth);
+//申请直播
+userRouter.post('/applySteam', applyUpoads.any(), applySteam);
 //获取用户信息
 userRouter.get('/', getUserInfo);
 

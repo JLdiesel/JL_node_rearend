@@ -8,13 +8,13 @@ class Stream {
       await streamService.quitStream(streamId);
       res.send('退出成功');
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async getToken(req, res, next) {
     const appID = '29792ec3eded410facd609fb7ad76fef';
     const appCertificate = 'ed2b1a3133144492aa549f4d404b19bd';
-    const channelName = req.params.channelName;
+    const { channelName } = req.params;
     const uid = 0;
     const role = RtcRole.PUBLISHER;
 
@@ -53,7 +53,7 @@ class Stream {
       await streamService.updateAvatar(fileUrl, insertId);
       res.send(result);
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async avatarInfo(req, res, next) {
@@ -80,7 +80,7 @@ class Stream {
         }
       });
     } catch (error) {
-      return next(error);
+      await next(error);
     }
   }
   async getStreamList(req, res, next) {
