@@ -1,6 +1,7 @@
 const connection = require('../app/database');
 class MomentService {
   async create(userID, content, title, status) {
+    try{
     const statement =
       'INSERT INTO `moment` (content,user_id,title,status) VALUES(?,?,?,?);';
     const result = await connection.execute(statement, [
@@ -10,20 +11,24 @@ class MomentService {
       status
     ]);
 
-    return result;
+    return result; } catch (error) {
+      return error
+    }
   }
   //通过用户id查询其发表的文章
-  async getMomentByUserId(id) {
+  async getMomentByUserId(id) {   try{
     const statement =
       `SELECT JSON_ARRAYAGG(JSON_OBJECT("momentId",id,"content",content,"title",title,"cover",picture,"createAt",createAt,"music",music,"label",label,"images", (SELECT JSON_ARRAYAGG(CONCAT("http://120.79.86.32:3000/moment/images/",file.filename)) FROM file WHERE m.id=file.moment_id))) contentArr
 	FROM moment m
 where user_id=? and status=0`;
     const [result] = await connection.execute(statement, [id]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
 
   //查找文章列表
-  async getMomentList(offset, size, status) {
+  async getMomentList(offset, size, status) {   try{
     const statement = `
             SELECT m.id id,m.content content,m.title title,m.createAt createTime,m.updateAt updateTime,m.status status,m.music music,m.label label,
             m.picture picture,m.music music,m.label label,
@@ -41,10 +46,12 @@ where user_id=? and status=0`;
 						GROUP BY m.id
 						  LIMIT ?,? ;`;
     const result = await connection.execute(statement, [status, offset, size]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
   //查找一篇文章所有的信息
-  async getMomentByMomentId(momentId) {
+  async getMomentByMomentId(momentId) {   try{
     const statement = `SELECT m.id id,m.content content,m.createAt createTime,m.updateAt updateTime,m.title title,m.picture cover,m.music music,m.label label,
 JSON_OBJECT('id',u.id,'nickName',u.nickName,'avatarUrl',u.avatar_url) user,
 IF(COUNT(t.id),JSON_ARRAYAGG(
@@ -67,49 +74,65 @@ JSON_OBJECT('id',t.id,'name',t.name)
 `;
     const [result] = await connection.execute(statement, [momentId]);
      console.log(result);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
   //更新文章内容
-  async updateById(content, id) {
+  async updateById(content, id) {   try{
     const statement = `UPDATE moment SET content =? WHERE id =?`;
     const result = await connection.execute(statement, [content, id]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
   //删除文章
-  async deleteById(id) {
+  async deleteById(id) {   try{
     const statement = `DELETE FROM moment WHERE id=?`;
     const result = await connection.execute(statement, [id]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
   //判断是否含有tag
-  async hasTag(momentId, tagId) {
+  async hasTag(momentId, tagId) {   try{
     const statement = `SELECT * FROM moment_tag WHERE moment_id =? AND tag_id=?`;
     const result = await connection.execute(statement, [momentId, tagId]);
-    return result[0].length ? true : false;
+    return result[0].length ? true : false; } catch (error) {
+      return error
+    }
   }
   //为文章添加标签
-  async addTag(momentId, tagId) {
+  async addTag(momentId, tagId) {   try{
     const statement = `INSERT INTO moment_tag (moment_id,tag_id) VALUES(?,?)`;
     const result = await connection.execute(statement, [momentId, tagId]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
   //更改文章封面图
-  async updatePictureById(fileUrl, momentId) {
+  async updatePictureById(fileUrl, momentId) {   try{
     const statement = `UPDATE moment SET picture =? where id = ?`;
     const [result] = await connection.execute(statement, [fileUrl, momentId]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
-  async updateMusicById(fileUrl, momentId) {
+  async updateMusicById(fileUrl, momentId) {   try{
     const statement = `UPDATE moment SET music =? where id = ?`;
     const [result] = await connection.execute(statement, [fileUrl, momentId]);
-    return result[0];
+    return result[0]; } catch (error) {
+      return error
+    }
   }
-  async updateLabel(momentId) {
+  async updateLabel(momentId) {   try{
     const statement = `update moment set label =1 where id=?`;
     const [result] = await connection.execute(statement, [momentId]);
-    return result;
+    return result; } catch (error) {
+      return error
+    }
   }
-  async createByStatus(content, ezcontent, title, status) {
+  async createByStatus(content, ezcontent, title, status) {   try{
     const statement = `insert into moment (content,ezcontent,title,status) values(?,?,?,?)`;
     const [result] = await connection.execute(statement, [
       content,
@@ -117,14 +140,18 @@ JSON_OBJECT('id',t.id,'name',t.name)
       title,
       status
     ]);
-    return result;
+    return result; } catch (error) {
+      return error
+    }
   }
-  async getListByStatus(status, offset, top) {
+  async getListByStatus(status, offset, top) {   try{
     const statement = `SELECT 	m.id id,m.content content,m.title title,m.picture picurl,m.ezcontent 
 ezcontent 
 FROM moment m WHERE status=? LIMIT ?,?`;
     const [result] = await connection.execute(statement, [status, offset, top]);
-    return result;
+    return result; } catch (error) {
+      return error
+    }
   }
   
 }

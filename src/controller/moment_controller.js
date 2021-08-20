@@ -23,7 +23,7 @@ class MomentController {
         await fileService.createFile(filename, mimetype, size, insertId);
       }
       res.send({
-        id: userID, 
+        id: insertId, 
         message: '当前用户发表评论成功',
         code: 200
       })
@@ -139,7 +139,7 @@ class MomentController {
     const { filename } = req.params;
     const fileInfo = await fileService.getFileByFilename(filename);
     const { type } = req.query;
-    const types = ['large', 'middle', 'small'];
+    const types = [ 'small'];
     let fileName2 = `${fileInfo.filename}`;
     if (types.some((item) => item === type)) {
       fileName2 = `${fileInfo.filename}-${type}`;
@@ -164,7 +164,8 @@ class MomentController {
     })} catch (error) {
     await   next(error);
   }
-  }
+    }
+ 
     async createByStatus(req, res, next) {
        try {
     const { status } = req.params;

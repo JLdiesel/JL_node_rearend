@@ -2,10 +2,15 @@ const connection = require('../app/database');
 
 class AuthService {
   async checkResource(tableName, id, userId) {
+    try {
+      
+   
     const statement = `SELECT * FROM ${tableName} WHERE id=? and user_id=?;`;
 
     const [result] = await connection.execute(statement, [id, userId]);
-    return result.length === 0 ? false : true;
+    return result.length === 0 ? false : true; } catch (error) {
+      return error
+    }
   }
   /*   async checkComment(commentId, id) {
     const statement = `SELECT user_id FROM comment WHERE id=?`

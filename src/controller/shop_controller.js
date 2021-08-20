@@ -42,7 +42,7 @@ class shopController {
     const { filename } = req.params;
     const fileInfo = await fileService.getBannerByFilename(filename);
     const { type } = req.query;
-    const types = ['large', 'middle', 'small'];
+    const types = ['small'];
     let fileName2 = `${fileInfo.filename}`;
     if (types.some((item) => item === type)) {
       fileName2 = `${fileInfo.filename}-${type}`;
@@ -74,7 +74,7 @@ class shopController {
     const { filename } = req.params;
     const fileInfo = await fileService.getInnerByFilename(filename);
     const { type } = req.query;
-    const types = ['large', 'middle', 'small'];
+    const types = [ 'small'];
     let fileName2 = `${fileInfo.filename}`;
     if (types.some((item) => item === type)) {
       fileName2 = `${fileInfo.filename}-${type}`;
@@ -106,7 +106,7 @@ class shopController {
     const { filename } = req.params;
     const fileInfo = await fileService.getCarByFilename(filename);
     const { type } = req.query;
-    const types = ['large', 'middle', 'small'];
+    const types = ['small'];
     let fileName2 = `${fileInfo.filename}`;
     if (types.some((item) => item === type)) {
       fileName2 = `${fileInfo.filename}-${type}`;

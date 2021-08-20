@@ -44,7 +44,7 @@ class VideoController {
     const avaterInfo = await fileService.getAvatarByVideoId(videoId);
     // res.send(avaterInfo.filename)
     const { type } = req.query;
-    const types = ['large', 'middle', 'small'];
+    const types = ['small'];
     let fileName = `${avaterInfo.filename}`;
     if (types.some((item) => item === type)) {
       fileName = `${avaterInfo.filename}-${type}`;
