@@ -60,7 +60,6 @@ class Stream {
     try {
       const { filename } = req.params;
       const fileInfo = await streamService.getFileByFilename(filename);
-      console.log(fileInfo);
 
       var options = {
         root: './uploads/streamAvatar',

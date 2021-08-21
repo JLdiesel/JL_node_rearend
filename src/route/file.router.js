@@ -6,6 +6,7 @@ const {
   shopUpload,
   videoAvatarUpload,
   videoUpload,
+  musicUpload,
   pictureResize
 } = require('../middleware/file_middleware');
 const { verifyAuth } = require('../middleware/auth_middleware');
@@ -17,9 +18,12 @@ const {
   saveShopCar,
   saveVideoInfo,
   saveVideoPicInfo,
-  saveUserBackground,saveMusicInfo
+  saveUserBackground,
+  saveMusicInfo,
+  saveMusic
 } = require('../controller/file_controller');
 const fileRouter = express.Router();
+fileRouter.post('/music', musicUpload.any(), saveMusic);
 //视频页数据
 //处理图片中间件
 fileRouter.use('/videoAvatar', videoAvatarUpload.any(), pictureResize);
@@ -42,7 +46,7 @@ fileRouter.use('/moment', PicUpload.any(), pictureResize);
 
 //上传文章图片
 fileRouter.post('/moment/:momentId', savePicInfo);
-fileRouter.post('/momentmusic/:momentId',videoUpload.any(), saveMusicInfo);
+fileRouter.post('/momentmusic/:momentId', videoUpload.any(), saveMusicInfo);
 //处理论坛图片中间件
 fileRouter.use('/momentInUser', PicUpload.any(), pictureResize);
 //添加论坛图片
@@ -57,6 +61,5 @@ fileRouter.post('/avatar', saveAvatarInfo);
 fileRouter.use('/userBackground', AvataUpload.any(), pictureResize);
 //上传用户背景
 fileRouter.post('/userBackground', saveUserBackground);
-
 
 module.exports = fileRouter;

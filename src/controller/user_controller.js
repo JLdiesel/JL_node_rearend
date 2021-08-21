@@ -8,10 +8,10 @@ class UserController {
     const user = req.body;
     try {
       const result = await service.create(user);
-      console.log(result.id);
+
       const { name, password } = user;
-      const { id } = result;
-      const token = JWT.sign({ id, name, password }, SERCET_KYE, {
+      const { insertId } = result;
+      const token = JWT.sign({ id: insertId, name, password }, SERCET_KYE, {
         expiresIn: 60 * 60 * 24 * 7
       });
       const results = await service.login(name);
@@ -98,7 +98,7 @@ class UserController {
   async getUserInfoById(req, res, next) {
     try {
       const { userId } = req.params;
-      console.log(userId);
+
       const result = await userService.getUserById(userId);
       res.send(result[0]);
     } catch (error) {
@@ -138,7 +138,7 @@ class UserController {
   async getFans(req, res, next) {
     try {
       const { id } = req.user;
-      console.log(id);
+
       const result = await userService.getFans(id);
       res.send(result);
     } catch (error) {
@@ -276,7 +276,7 @@ class UserController {
     const files = req.files;
     const { id } = req.user;
     const result = await userService.createApply(realName, idCard, id);
-    console.log(result);
+
     const { insertId } = result;
     for (const file of files) {
       const { filename, mimetype, size } = file;

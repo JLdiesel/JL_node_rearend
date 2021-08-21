@@ -71,7 +71,7 @@ ON DUPLICATE KEY UPDATE nickName=VALUES(nickName), sex=VALUES(sex), birthday=VAL
   async createFollow(insertId, userId) {
     const statement = `INSERT INTO follow (user_id,follow_user_id) VALUES (?,?)`;
     const [result] = await connection.execute(statement, [userId, insertId]);
-    console.log(result);
+
     return result;
   }
   async getFollow(insertId) {

@@ -6,8 +6,10 @@ const VIDEO_AVATAR = './uploads/videoAvatar';
 const STREAM_AVATAR = './uploads/streamAvatar';
 const ROLE_AVATAR = './uploads/roleAvatar';
 const APPLY_PATH = './uploads/apply';
+const MUSIC_PATH = './uploads/music';
 module.exports = {
   AVATAR_PATH,
+  MUSIC_PATH,
   PICTURE_PATH,
   SHOP_PATH,
   VIDEO_AVATAR,

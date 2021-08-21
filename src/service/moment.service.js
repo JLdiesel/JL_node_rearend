@@ -14,8 +14,7 @@ class MomentService {
   }
   //通过用户id查询其发表的文章
   async getMomentByUserId(id) {
-    const statement =
-      `SELECT JSON_ARRAYAGG(JSON_OBJECT("momentId",id,"content",content,"title",title,"cover",picture,"createAt",createAt,"music",music,"label",label,"images", (SELECT JSON_ARRAYAGG(CONCAT("http://120.79.86.32:3000/moment/images/",file.filename)) FROM file WHERE m.id=file.moment_id))) contentArr
+    const statement = `SELECT JSON_ARRAYAGG(JSON_OBJECT("momentId",id,"content",content,"title",title,"cover",picture,"createAt",createAt,"music",music,"label",label,"images", (SELECT JSON_ARRAYAGG(CONCAT("http://120.79.86.32:3000/moment/images/",file.filename)) FROM file WHERE m.id=file.moment_id))) contentArr
 	FROM moment m
 where user_id=? and status=0`;
     const [result] = await connection.execute(statement, [id]);
@@ -66,7 +65,7 @@ JSON_OBJECT('id',t.id,'name',t.name)
   WHERE m.id=?
 `;
     const [result] = await connection.execute(statement, [momentId]);
-     console.log(result);
+
     return result[0];
   }
   //更新文章内容
@@ -126,7 +125,6 @@ FROM moment m WHERE status=? LIMIT ?,?`;
     const [result] = await connection.execute(statement, [status, offset, top]);
     return result;
   }
-  
 }
 
 module.exports = new MomentService();

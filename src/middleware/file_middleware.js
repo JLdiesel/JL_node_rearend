@@ -9,26 +9,39 @@ const {
   VIDEO_PATH,
   STREAM_AVATAR,
   ROLE_AVATAR,
-  APPLY_PATH
+  APPLY_PATH,
+  MUSIC_PATH
 } = require('../constants/file-path');
 const AvataStorage = multer.diskStorage({
-  destination: AVATAR_PATH
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: AVATAR_PATH,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 
 const AvataUpload = multer({
   // dest: './uploads/'
   storage: AvataStorage
 });
-const applyStorage = multer.diskStorage({
-  destination: APPLY_PATH
+const musicStorage = multer.diskStorage({
+  destination: MUSIC_PATH
   /*  filename: (req, file, cb) => {
         //第二个字段传文件名
         cb(null, Date.now() + path.extname(file.originalname));
     }, */
+});
+
+const musicUpload = multer({
+  // dest: './uploads/'
+  storage: musicStorage
+});
+const applyStorage = multer.diskStorage({
+  destination: APPLY_PATH,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 
 const applyUpoads = multer({
@@ -38,9 +51,9 @@ const applyUpoads = multer({
 const PicStorage = multer.diskStorage({
   destination: PICTURE_PATH
   /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+    //第二个字段传文件名
+    cb(null, Date.now() + path.extname(file.originalname));
+  } */
 });
 
 const PicUpload = multer({
@@ -132,5 +145,6 @@ module.exports = {
   streamAvatarUpload,
   roleAvatarUpload,
   applyUpoads,
+  musicUpload,
   pictureResize
 };
