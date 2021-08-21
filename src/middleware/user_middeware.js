@@ -4,7 +4,6 @@ const service = require('../service/user.service');
 const md5password = require('../utils/password_handle');
 const verifyUser = async (req, res, next) => {
   //判断注册
-  console.log('判断注册');
   //获取用户名与密码
   const { name, password } = req.body;
   //判断用户名和密码不能为空 ||name===''||password===''
@@ -20,7 +19,6 @@ const verifyUser = async (req, res, next) => {
 };
 const handlePassword = async (req, res, next) => {
   //转换密码
-  console.log('密码转换');
   let { password } = req.body;
   //对密码进行加密
   req.body.password = md5password(password);
@@ -29,7 +27,6 @@ const handlePassword = async (req, res, next) => {
 
 const loginMiddleware = async (req, res, next) => {
   //判断登录
-  console.log('判断登录');
   const { name, password } = req.body;
   //判断用户名和密码不能为空 ||name===''||password===''
   if (!name || !password) {

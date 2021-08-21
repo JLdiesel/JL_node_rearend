@@ -42,12 +42,11 @@ class UserController {
       const avaterInfo = await fileService.getAvatarByUserId(userId);
       // res.send(avaterInfo.filename)
       const { type } = req.query;
-      const types = ['large', 'middle', 'small'];
+      const types = ['small'];
       let fileName = `${avaterInfo.filename}`;
       if (types.some((item) => item === type)) {
         fileName = `${avaterInfo.filename}-${type}`;
       }
-      console.log(avaterInfo);
       var options = {
         root: './uploads/avatar',
         dotfiles: 'deny',
@@ -276,7 +275,6 @@ class UserController {
     const files = req.files;
     const { id } = req.user;
     const result = await userService.createApply(realName, idCard, id);
-
     const { insertId } = result;
     for (const file of files) {
       const { filename, mimetype, size } = file;

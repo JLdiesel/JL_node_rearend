@@ -28,7 +28,7 @@ class MomentController {
         await fileService.createFile(filename, mimetype, size, insertId);
       }
       res.send({
-        id: userID,
+        id: insertId,
         message: '当前用户发表评论成功',
         code: 200
       });
@@ -147,22 +147,11 @@ class MomentController {
       const { filename } = req.params;
       const fileInfo = await fileService.getFileByFilename(filename);
       const { type } = req.query;
-      const types = ['large', 'middle', 'small'];
+      const types = ['small'];
       let fileName2 = `${fileInfo.filename}`;
       if (types.some((item) => item === type)) {
         fileName2 = `${fileInfo.filename}-${type}`;
       }
-
-      var options = {
-        root: './uploads/pic',
-        dotfiles: 'deny',
-        headers: {
-          'x-timestamp': Date.now(),
-          'x-sent': true,
-          'Content-Type': fileInfo.mimetype
-        }
-      };
-
       res.sendFile(fileName2, options, function (err) {
         if (err) {
           next(err);
@@ -170,6 +159,22 @@ class MomentController {
           console.log('成功了');
         }
       });
+    } catch (error) {
+      await next(error);
+    }
+  }
+
+  async createByStatus(req, res, next) {
+    try {
+      const { status } = req.params;
+      const { content, ezcontent, title } = req.body;
+      const result = await momentService.createByStatus(
+        content,
+        ezcontent,
+        title,
+        status
+      );
+      res.send(result);
     } catch (error) {
       await next(error);
     }

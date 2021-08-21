@@ -23,7 +23,7 @@ const {
   saveMusic
 } = require('../controller/file_controller');
 const fileRouter = express.Router();
-fileRouter.post('/music', musicUpload.any(), saveMusic);
+
 //视频页数据
 //处理图片中间件
 fileRouter.use('/videoAvatar', videoAvatarUpload.any(), pictureResize);
@@ -53,7 +53,7 @@ fileRouter.use('/momentInUser', PicUpload.any(), pictureResize);
 fileRouter.post('/momentInUser/:momentId', savePicInfo);
 
 fileRouter.use('/', verifyAuth);
-
+fileRouter.post('/music', musicUpload.any(), saveMusic);
 fileRouter.use('/avatar', AvataUpload.any(), pictureResize);
 //上传用户头像
 fileRouter.post('/avatar', saveAvatarInfo);

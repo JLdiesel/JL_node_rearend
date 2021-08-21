@@ -36,7 +36,7 @@ const errHandler = (err, req, res, next) => {
       message = 'NOT FOUND';
       break;
   }
-  res.status(status);
+  // res.status(status);
 
   res.json({
     errCode: status,

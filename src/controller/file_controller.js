@@ -8,7 +8,6 @@ const videoService = require('../service/video.service');
 class FileController {
   async saveAvatarInfo(req, res, next) {
     try {
-   
       const { originalname, filename, size } = req.files[0];
 
       const { id } = req.user;
@@ -23,7 +22,6 @@ class FileController {
   }
   async saveUserBackground(req, res, next) {
     try {
-     
       const { originalname, filename, size } = req.files[0];
 
       const { id } = req.user;
@@ -58,35 +56,18 @@ class FileController {
     }
   }
   async saveMusic(req, res, next) {
- 
-    const [file] = req.fiels;
-    const filePath = `../../uploads/music/${file.filename}`;
-    const stream = fs.createWriteStream();
-    for (const file of req.files) {
-      const filePath = `../../uploads/music/${file.filename}`;
-      stream.write();
+    try {
+      const files = req.files;
+      const { id } = req.user;
+      //2 将所有的文件信息 保存到数据库中
+      for (const file of files) {
+        const { filename, mimetype, size } = file;
+        await fileService.createMusic(filename, mimetype, size, id);
+      }
+      res.send('上传完成');
+    } catch (err) {
+      await next(err);
     }
-
-    res.send('123');
-    //1获取图像信息
-    // try {
-    //   const files = req.files;
-    //   const { momentId } = req.params;
-    //   //存储一张首页图片到文章详情中
-    //   const [file] = files;
-    //   const { filename } = file;
-    //   const fileUrl = `${APP_HOST}:${APP_PORT}/moment/music/${filename}`;
-    //   await momentService.updateMusicById(fileUrl, momentId);
-    //   await momentService.updateLabel(momentId);
-    //   //2 将所有的文件信息 保存到数据库中
-    //   for (const file of files) {
-    //     const { filename, mimetype, size } = file;
-    //     await fileService.createFile(filename, mimetype, size, momentId);
-    //   }
-    //   res.send('上传完成');
-    // } catch (err) {
-    //   await next(err);
-    // }
   }
   async savePicInfo(req, res, next) {
     //1获取图像信息

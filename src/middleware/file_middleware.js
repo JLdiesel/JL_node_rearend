@@ -16,7 +16,7 @@ const AvataStorage = multer.diskStorage({
   destination: AVATAR_PATH,
   filename: (req, file, cb) => {
     //第二个字段传文件名
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, 'ua' + Date.now() + path.extname(file.originalname));
   }
 });
 
@@ -24,14 +24,14 @@ const AvataUpload = multer({
   // dest: './uploads/'
   storage: AvataStorage
 });
-const musicStorage = multer.diskStorage({
-  destination: MUSIC_PATH
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
-});
 
+const musicStorage = multer.diskStorage({
+  destination: MUSIC_PATH,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'music' + Date.now() + path.extname(file.originalname));
+  }
+});
 const musicUpload = multer({
   // dest: './uploads/'
   storage: musicStorage
@@ -49,11 +49,11 @@ const applyUpoads = multer({
   storage: applyStorage
 });
 const PicStorage = multer.diskStorage({
-  destination: PICTURE_PATH
-  /*  filename: (req, file, cb) => {
+  destination: PICTURE_PATH,
+  filename: (req, file, cb) => {
     //第二个字段传文件名
-    cb(null, Date.now() + path.extname(file.originalname));
-  } */
+    cb(null, 'mc' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const PicUpload = multer({
@@ -61,11 +61,11 @@ const PicUpload = multer({
   storage: PicStorage
 });
 const shopStorage = multer.diskStorage({
-  destination: SHOP_PATH
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: SHOP_PATH,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'shop' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const shopUpload = multer({
@@ -73,11 +73,11 @@ const shopUpload = multer({
   storage: shopStorage
 });
 const videoStorage = multer.diskStorage({
-  destination: VIDEO_PATH
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: VIDEO_PATH,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'videov' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const videoUpload = multer({
@@ -85,11 +85,11 @@ const videoUpload = multer({
   storage: videoStorage
 });
 const videoAvatarStorage = multer.diskStorage({
-  destination: VIDEO_AVATAR
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: VIDEO_AVATAR,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'videoa' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const videoAvatarUpload = multer({
@@ -98,11 +98,11 @@ const videoAvatarUpload = multer({
 });
 
 const streamAvatarStorage = multer.diskStorage({
-  destination: STREAM_AVATAR
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: STREAM_AVATAR,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'stream' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const streamAvatarUpload = multer({
@@ -111,11 +111,11 @@ const streamAvatarUpload = multer({
 });
 
 const roleAvatarStorage = multer.diskStorage({
-  destination: ROLE_AVATAR
-  /*  filename: (req, file, cb) => {
-        //第二个字段传文件名
-        cb(null, Date.now() + path.extname(file.originalname));
-    }, */
+  destination: ROLE_AVATAR,
+  filename: (req, file, cb) => {
+    //第二个字段传文件名
+    cb(null, 'role' + Date.now() + path.extname(file.originalname));
+  }
 });
 
 const roleAvatarUpload = multer({
@@ -129,8 +129,6 @@ const pictureResize = async (req, res, next) => {
   for (const file of files) {
     const destPath = path.join(file.destination, file.filename);
     jimp.read(file.path).then((image) => {
-      image.resize(1280, jimp.AUTO).write(`${destPath}-large`);
-      image.resize(640, jimp.AUTO).write(`${destPath}-middle`);
       image.resize(320, jimp.AUTO).write(`${destPath}-small`);
     });
   }
