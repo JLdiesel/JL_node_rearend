@@ -10,7 +10,7 @@ class MomentController {
       //讲输入信息传入到数据库
       const [result] = await momentService.create(userID, content, title, status);
       const files = req.files;
-      console.log(req.body);
+
       const { insertId } = result;
       //存储一张首页图片到文章详情中
       const [file] = files; 

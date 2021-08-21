@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', fileRouter);
 app.use('/user', userRouter);
-// app.use('/dongtai',DongTaiRouter)
+
 app.use('/moment', momentRouter);
 app.use('/comment', commentRouter);
 app.use('/stream', streamRouer);

@@ -8,7 +8,7 @@ const videoService = require('../service/video.service');
 class FileController {
   async saveAvatarInfo(req, res, next) {
     try {
-      console.log(req.files);
+   
       const { originalname, filename, size } = req.files[0];
 
       const { id } = req.user;
@@ -23,7 +23,7 @@ class FileController {
   }
   async saveUserBackground(req, res, next) {
     try {
-      console.log(req.files[0]);
+      
       const { originalname, filename, size } = req.files[0];
 
       const { id } = req.user;

@@ -9,7 +9,7 @@ class UserController {
     const user = req.body;
     try {
     const result = await service.create(user);
-    console.log(result.id);
+ 
     const { name, password } = user;
     const { id } = result;
     const token = JWT.sign({ id, name, password }, SERCET_KYE, {
@@ -96,7 +96,7 @@ class UserController {
   async getUserInfoById(req, res, next) {
     try { 
       const { userId } = req.params;
-      console.log(userId);
+   
       const result = await userService.getUserById(userId);
       res.send(result[0])
     } catch (error) {
@@ -135,7 +135,7 @@ class UserController {
   async getFans(req, res, next) {
     try{
       const { id } = req.user;
-      console.log(id);
+
       const result = await userService.getFans(id);
     res.send(result); } catch (error) {
       await   next(error)
