@@ -23,7 +23,7 @@ class UserController {
   async login(req, res, next) {
     try {
       const { id, name, password } = req.user;
-
+      console.log(name);
       //秘钥发布
       const token = JWT.sign({ id, name, password }, SERCET_KYE, {
         expiresIn: 60 * 60 * 24 * 7

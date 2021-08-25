@@ -149,7 +149,24 @@ class FileService {
       return err;
     }
   }
-
+  async getstaticFileByFilename(filename) {
+    try {
+      const statement = `SELECT * FROM static_music WHERE filename=?`;
+      const [result] = await connection.execute(statement, [filename]);
+      return result[0];
+    } catch (err) {
+      return err;
+    }
+  }
+  async getStaticMusicById(id) {
+    try {
+      const statement = `SELECT filename FROM static_music WHERE id=?`;
+      const [result] = await connection.execute(statement, [id]);
+      return result[0];
+    } catch (err) {
+      return err;
+    }
+  }
   async getBannerByFilename(filename) {
     try {
       const statement = `SELECT * FROM shopbannerpic WHERE filename=?`;
@@ -185,6 +202,19 @@ class FileService {
         mimetype,
         size,
         id
+      ]);
+      return result[0];
+    } catch (err) {
+      return err;
+    }
+  }
+  async createStaticMusic(filename, mimetype, size, id) {
+    try {
+      const statement = `insert into static_music (filename,mimetype,size) values (?,?,?)`;
+      const [result] = await connection.execute(statement, [
+        filename,
+        mimetype,
+        size
       ]);
       return result[0];
     } catch (err) {

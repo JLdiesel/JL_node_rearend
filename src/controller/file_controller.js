@@ -1,5 +1,5 @@
 const fileService = require('../service/file.service');
-const fs = require('fs');
+const audiosprite = require('audiosprite');
 const userService = require('../service/user.service');
 const { APP_HOST, APP_PORT } = require('../app/config');
 const momentService = require('../service/moment.service');
@@ -55,10 +55,59 @@ class FileController {
       await next(err);
     }
   }
+  async staticmusicById(req, res, next) {
+    const { staticId } = req.params;
+    const result = await fileService.getStaticMusicById(staticId);
+    console.log(result);
+    const path = `http://localhost:3000/uploads/staticmusic/${result.filename}`;
+    res.send(path);
+  }
+  async musicInfo(req, res, next) {
+    try {
+      const { filename } = req.params;
+      const fileInfo = await fileService.getstaticFileByFilename(filename);
+      var options = {
+        root: './uploads/music',
+        dotfiles: 'deny',
+        headers: {
+          'x-timestamp': Date.now(),
+          'x-sent': true,
+          'Content-Type': fileInfo.mimetype
+        }
+      };
+
+      var fileName = `${fileInfo.filename}`;
+
+      res.sendFile(fileName, options, function (err) {
+        if (err) {
+          next(err);
+        } else {
+          console.log('成功了');
+        }
+      });
+    } catch (error) {
+      await next(error);
+    }
+  }
+
+  async saveStaticMusic(req, res, next) {
+    try {
+      const files = req.files;
+      //2 将所有的文件信息 保存到数据库中
+      for (const file of files) {
+        const { filename, mimetype, size } = file;
+        await fileService.createStaticMusic(filename, mimetype, size);
+      }
+      res.send('上传完成');
+    } catch (err) {
+      await next(err);
+    }
+  }
   async saveMusic(req, res, next) {
     try {
       const files = req.files;
       const { id } = req.user;
+      console.log(files);
       //2 将所有的文件信息 保存到数据库中
       for (const file of files) {
         const { filename, mimetype, size } = file;

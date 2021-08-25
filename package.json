@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "agora-access-token": "^2.0.4",
+    "audiosprite": "^0.7.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jimp": "^0.16.1",

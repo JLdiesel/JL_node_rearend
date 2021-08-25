@@ -20,7 +20,10 @@ const {
   saveVideoPicInfo,
   saveUserBackground,
   saveMusicInfo,
-  saveMusic
+  saveMusic,
+  musicInfo,
+  saveStaticMusic,
+  staticmusicById
 } = require('../controller/file_controller');
 const fileRouter = express.Router();
 
@@ -52,8 +55,13 @@ fileRouter.use('/momentInUser', PicUpload.any(), pictureResize);
 //添加论坛图片
 fileRouter.post('/momentInUser/:momentId', savePicInfo);
 
+fileRouter.get('/staticmusic/:filename', musicInfo);
+fileRouter.get('/staticmusicById/:staticId', staticmusicById);
+fileRouter.post('/staticmusic', musicUpload.any(), saveStaticMusic);
+
 fileRouter.use('/', verifyAuth);
 fileRouter.post('/music', musicUpload.any(), saveMusic);
+
 fileRouter.use('/avatar', AvataUpload.any(), pictureResize);
 //上传用户头像
 fileRouter.post('/avatar', saveAvatarInfo);

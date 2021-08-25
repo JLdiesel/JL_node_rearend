@@ -120,7 +120,7 @@ class MomentController {
       const { filename } = req.params;
       const fileInfo = await fileService.getFileByFilename(filename);
       var options = {
-        root: './uploads/video',
+        root: './uploads/music',
         dotfiles: 'deny',
         headers: {
           'x-timestamp': Date.now(),
