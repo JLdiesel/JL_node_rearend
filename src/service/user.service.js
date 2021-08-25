@@ -222,7 +222,7 @@ WHERE  od.id=?
   async getOriderListByUserId(userId, offset, top) {
     try {
       const statement = `SELECT IF(COUNT(od.id),JSON_ARRAYAGG(
-JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status)
+JSON_OBJECT("oriderId",od.id,"title",shop.title,"img",CONCAT('http://120.79.86.32:3000/shop/shopcar/',sc.filename),"color",sc.color,"count",od.count,"price",sc.price,"status",status,"createAt",od.createAt)
 ),null) oriderList
     FROM user  u
 left JOIN orider od ON u.id= od.user_id

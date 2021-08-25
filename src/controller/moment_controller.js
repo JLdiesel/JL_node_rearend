@@ -151,7 +151,16 @@ class MomentController {
       let fileName2 = `${fileInfo.filename}`;
       if (types.some((item) => item === type)) {
         fileName2 = `${fileInfo.filename}-${type}`;
-      }
+      } 
+      var options = {
+        root: './uploads/pic',
+        dotfiles: 'deny',
+        headers: {
+          'x-timestamp': Date.now(),
+          'x-sent': true,
+          'Content-Type': fileInfo.mimetype
+        }
+      };
       res.sendFile(fileName2, options, function (err) {
         if (err) {
           next(err);
