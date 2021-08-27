@@ -72,6 +72,11 @@ WHERE vc.id=vr.video_comment_id
       return error
     }
   }
+  async getVideoList() {
+    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"title",title,"avatar",avatar,"watchNum",watchNum,"createAt",createAt,"ezcontent",ezcontent)) ) FROM video`;
+    const [result] = await connection.execute(statement);
+    return result
+  }
 }
 
 module.exports = new VideoService();

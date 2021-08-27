@@ -30,9 +30,16 @@ const {
   changeUserDefaultAddress,
   getUserDefaultAddress,
   getUserInfoById,
-  applySteam
+  applySteam,
+  getUserList
 } = require('../controller/user_controller');
 const { verifyAuth } = require('../middleware/auth_middleware');
+
+userRouter.get('/list', getUserList);
+userRouter.patch('/', updateUserInfo);
+userRouter.delete('/', updateUserInfo);
+userRouter.post('/', updateUserInfo);
+
 //管理员更改用户直播权限
 userRouter.patch('/updateUserStatus/:userId', updateUserStatus);
 //登录中间件  md5加密
@@ -57,6 +64,7 @@ userRouter.use('/', verifyAuth);
 userRouter.post('/applySteam', applyUpoads.any(), applySteam);
 //获取用户信息
 userRouter.get('/', getUserInfo);
+
 
 //关注粉丝
 userRouter.post('/follow/:userId', createFollow);

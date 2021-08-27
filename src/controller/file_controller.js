@@ -1,5 +1,4 @@
 const fileService = require('../service/file.service');
-const audiosprite = require('audiosprite');
 const userService = require('../service/user.service');
 const { APP_HOST, APP_PORT } = require('../app/config');
 const momentService = require('../service/moment.service');
@@ -58,8 +57,7 @@ class FileController {
   async staticmusicById(req, res, next) {
     const { staticId } = req.params;
     const result = await fileService.getStaticMusicById(staticId);
-    console.log(result);
-    const path = `http://localhost:3000/uploads/staticmusic/${result.filename}`;
+    const path = `${PP_HOST}:${APP_PORT}/uploads/staticmusic/${result.filename}`;
     res.send(path);
   }
   async musicInfo(req, res, next) {
@@ -107,11 +105,12 @@ class FileController {
     try {
       const files = req.files;
       const { id } = req.user;
+      const { staticId } = req.body;
       console.log(files);
       //2 将所有的文件信息 保存到数据库中
       for (const file of files) {
         const { filename, mimetype, size } = file;
-        await fileService.createMusic(filename, mimetype, size, id);
+        await fileService.createMusic(filename, mimetype, size, id,staticId);
       }
       res.send('上传完成');
     } catch (err) {

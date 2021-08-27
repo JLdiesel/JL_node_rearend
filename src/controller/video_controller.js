@@ -10,6 +10,10 @@ class VideoController {
    await   next(error)
     }
   }
+  async getVideoList(req, res, next) {
+    const result = await videoService.getVideoList();
+    res.send(result)
+  }
 
   async videoInfo(req, res, next) {try{
     //1.查找视频名

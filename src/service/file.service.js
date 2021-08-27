@@ -194,14 +194,14 @@ class FileService {
       return err;
     }
   }
-  async createMusic(filename, mimetype, size, id) {
+  async createMusic(filename, mimetype, size, id,staticId) {
     try {
-      const statement = `insert into user_music (filename,mimetype,size,user_id) values (?,?,?,?)`;
+      const statement = `insert into user_music (filename,mimetype,size,user_id,static_musicId) values (?,?,?,?,?)`;
       const [result] = await connection.execute(statement, [
         filename,
         mimetype,
         size,
-        id
+        id,staticId
       ]);
       return result[0];
     } catch (err) {

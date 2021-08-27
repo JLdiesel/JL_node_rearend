@@ -8,10 +8,11 @@ const {
   addVideoTag,
   videoInfo,
   getVideoInnerById,
-  getVideoCommentById
+  getVideoCommentById,getVideoList
 } = require('../controller/video_controller');
 const { verifyLabelExists } = require('../middleware/tag_middleware');
 videoRouter.post('/', createVideo);
+videoRouter.get('/', getVideoList);
 //获取视频头像
 videoRouter.get('/:videoId/avatar', avatarInfo);
 //获取视频内容

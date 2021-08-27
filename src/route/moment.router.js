@@ -1,7 +1,7 @@
 const express = require('express');
 //动态
 const momentRouter = express.Router();
-const {PicUpload}=require('../middleware/file_middleware')
+const {PicUpload,pictureResize}=require('../middleware/file_middleware')
 const {
   remove,
   create,
@@ -39,13 +39,16 @@ momentRouter.use('/', verifyAuth);
 momentRouter.get('/currentUserReviews', currentUserReviews);
 
 //创建文章
-momentRouter.post('/', PicUpload.any(),create);
+momentRouter.use('/', PicUpload.any(),  pictureResize);
+
+momentRouter.post('/', create);
+
 //验证修改权限
 momentRouter.use('/:momentId', verifyPermission);
 
 //删除文章
 momentRouter.delete('/:momentId', remove);
-//添加标签中间件
+//添加标签中间件trtrrrrrrrrrrrrrrrrrrr
 momentRouter.use('/:momentId/momentTags', verifyLabelExists);
 //添加标签
 momentRouter.post('/:momentId/momentTags', addTags);

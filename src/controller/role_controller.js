@@ -51,7 +51,7 @@ class RoleController {
     const result = await roleService.getRoleMomentById(roleId);
     res.send(result);
   }
-  async getRolePicById(req, res, next) {
+  async getRolePicById(req, res, next) { 
     const { roleId } = req.params;
     const result = await roleService.getRolePicById(roleId);
     res.send(result);

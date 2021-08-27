@@ -316,5 +316,10 @@ limit ?,?
       return error;
     }
   }
+  async getUserList() {
+    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"name",name,"realName",nickName,"sex",sex,"ownSay",ownSay,"isStream",isStream)) ) data  FROM user`
+     const [result] = await connection.execute(statement);
+      return result;
+  }
 }
 module.exports = new UserService();

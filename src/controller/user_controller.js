@@ -70,7 +70,14 @@ class UserController {
   }
   async updateUserInfo(req, res, next) {
     try {
-      const { id } = req.user;
+      let id
+      if (req.user) {
+         id  = req.user;
+      } else {
+       id=req.body
+      }
+     
+      
       const { nickName, sex, birthday, ownSay } = req.body;
 
       const result = await userService.updateUserInfo(
@@ -94,6 +101,10 @@ class UserController {
       await next(error);
     }
   }
+  async getUserList(req, res, next) {
+    const result =await userService.getUserList()
+    res.send(result)
+ }
   async getUserInfoById(req, res, next) {
     try {
       const { userId } = req.params;
