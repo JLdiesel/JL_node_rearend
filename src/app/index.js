@@ -10,6 +10,7 @@ const shopRouter = require('../route/shop.router');
 const videoRouter = require('../route/video.router');
 const streamRouer = require('../route/stream.router');
 const roleRouter = require('../route/role.router');
+const applyRouter = require('../route/apply.router');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/tag', tagRouter);
 app.use('/shop', shopRouter);
 app.use('/video', videoRouter);
 app.use('/role', roleRouter);
+app.use('/apply', applyRouter);
 
 app.use(errHandler);
 module.exports = app;

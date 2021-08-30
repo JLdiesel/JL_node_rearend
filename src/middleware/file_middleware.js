@@ -125,15 +125,15 @@ const roleAvatarUpload = multer({
 
 const pictureResize = async (req, res, next) => {
   const files = req.files;
-  if (files.length) {
+  if (files?.length) {
     //对图像进行处理 (sharp(path).resize)/jimp
-  for (const file of files) {
-    const destPath = path.join(file.destination, file.filename);
-    jimp.read(file.path).then((image) => {
-      image.resize(320, jimp.AUTO).write(`${destPath}-small`);
-    });
+    for (const file of files) {
+      const destPath = path.join(file.destination, file.filename);
+      jimp.read(file.path).then((image) => {
+        image.resize(320, jimp.AUTO).write(`${destPath}-small`);
+      });
+    }
   }
- }
   next();
 };
 module.exports = {

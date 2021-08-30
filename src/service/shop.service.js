@@ -75,6 +75,33 @@ ON DUPLICATE KEY UPDATE color=VALUES(color), price=VALUES(price);`;
       return error;
     }
   }
+  async getList() {
+    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"title",title,"image",imguri,"type",type,"introduce",introduce,"sellnum",sellnum,"price",price)) ) data  FROM shop `;
+    const [result] = await connection.execute(statement);
+    return result;
+  }
+  async deleteByShopId(shopId) {
+    const statement = `delete from shop where id =?`;
+    const [result] = await connection.execute(statement, [shopId]);
+    return result;
+  }
+  async updateByShopId(shopId, title, price, status, introduce) {
+    try {
+      const statement = `INSERT INTO shop (id,title, price, type,introduce) VALUES
+    (?,?,?,?,?)
+ON DUPLICATE KEY UPDATE title=VALUES(title), price=VALUES(price), type=VALUES(type), introduce=VALUES(introduce); `;
+      const [result] = await connection.execute(statement, [
+        shopId,
+        title,
+        price,
+        status,
+        introduce
+      ]);
+      return result[0];
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = new ShopService();

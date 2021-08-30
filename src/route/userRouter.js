@@ -17,7 +17,7 @@ const {
   getFans,
   removeFollow,
   getFollow,
-  updateUserStatus,
+
   getUserAddress,
   addUserAddress,
   removeAddress,
@@ -31,17 +31,12 @@ const {
   getUserDefaultAddress,
   getUserInfoById,
   applySteam,
-  getUserList
+  getUserList,
+  deleteByUserId,
+  createNew
 } = require('../controller/user_controller');
 const { verifyAuth } = require('../middleware/auth_middleware');
 
-userRouter.get('/list', getUserList);
-userRouter.patch('/', updateUserInfo);
-userRouter.delete('/', updateUserInfo);
-userRouter.post('/', updateUserInfo);
-
-//管理员更改用户直播权限
-userRouter.patch('/updateUserStatus/:userId', updateUserStatus);
 //登录中间件  md5加密
 userRouter.use('/login', loginMiddleware);
 //登录
@@ -58,13 +53,17 @@ userRouter.use('/register', handlePassword);
 //注册用户 同时登录
 userRouter.post('/register', create);
 userRouter.get('/userInfoById/:userId', getUserInfoById);
+
+userRouter.get('/list', getUserList);
+userRouter.patch('/:userId', updateUserInfo);
+userRouter.delete('/:userId', deleteByUserId);
+userRouter.post('/', createNew);
 //鉴权
 userRouter.use('/', verifyAuth);
 //申请直播
 userRouter.post('/applySteam', applyUpoads.any(), applySteam);
 //获取用户信息
 userRouter.get('/', getUserInfo);
-
 
 //关注粉丝
 userRouter.post('/follow/:userId', createFollow);

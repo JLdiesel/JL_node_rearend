@@ -15,6 +15,29 @@ class UserService {
 
     //将user存储到数据库中
   }
+  async createNew(name, sex, password, nickName, ownSay, birthday) {
+    try {
+      const statement = `INSERT INTO user (name,
+      sex,
+      password,
+      nickName,
+      ownSay,
+      birthday) VALUES(?,?,?,?,?,?)`;
+      const result = await connection.execute(statement, [
+        name,
+        sex,
+        password,
+        nickName,
+        ownSay,
+        birthday
+      ]);
+      return result[0];
+    } catch (error) {
+      return error;
+    }
+
+    //将user存储到数据库中
+  }
   //通过name查找user密码
   async getUserByName(name) {
     try {
@@ -137,7 +160,7 @@ WHERE f.user_id=? and status = 0
   }
   async updateUserStatus(userId) {
     try {
-      const statement = `UPDATE user set isStream =0 where id=?`;
+      const statement = `UPDATE user set isStream =1 where id=?`;
       const [result] = await connection.execute(statement, [userId]);
       return result;
     } catch (error) {
@@ -303,13 +326,15 @@ limit ?,?
     }
   }
 
-  async createApply(realName, idCard, id) {
+  async createApply(realName, idCard, id, front, back) {
     try {
-      const statement = `insert into apply (realName,idCard,user_id) values (?,?,?)`;
+      const statement = `insert into apply (realName,idCard,user_id,front,back) values (?,?,?,?,?)`;
       const [result] = await connection.execute(statement, [
         realName,
         idCard,
-        id
+        id,
+        front,
+        back
       ]);
       return result;
     } catch (error) {
@@ -317,9 +342,14 @@ limit ?,?
     }
   }
   async getUserList() {
-    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"name",name,"realName",nickName,"sex",sex,"ownSay",ownSay,"isStream",isStream)) ) data  FROM user`
-     const [result] = await connection.execute(statement);
-      return result;
+    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"name",name,"nickName",nickName,"sex",sex,"ownSay",ownSay,"isStream",isStream,"createAt",createAt,"updateAt",updateAt,"birthday",birthday)) ) data  FROM user `;
+    const [result] = await connection.execute(statement);
+    return result;
+  }
+  async deleteByUserId(userId) {
+    const statement = `delete from user where id=?`;
+    const result = await connection.execute(statement, [userId]);
+    return result;
   }
 }
 module.exports = new UserService();

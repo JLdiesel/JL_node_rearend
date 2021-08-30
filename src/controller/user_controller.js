@@ -3,6 +3,7 @@ const JWT = require('jsonwebtoken');
 const { SERCET_KYE } = require('../app/config');
 const fileService = require('../service/file.service');
 const userService = require('../service/user.service');
+const applyservice = require('../service/apply_service');
 class UserController {
   async create(req, res, next) {
     const user = req.body;
@@ -70,15 +71,14 @@ class UserController {
   }
   async updateUserInfo(req, res, next) {
     try {
-      let id
+      let id;
       if (req.user) {
-         id  = req.user;
+        id = req.user.id;
       } else {
-       id=req.body
+        id = req.params.userId;
       }
-     
-      
-      const { nickName, sex, birthday, ownSay } = req.body;
+
+      const { nickName = '', sex = 0, birthday = '', ownSay = '' } = req.body;
 
       const result = await userService.updateUserInfo(
         id,
@@ -102,9 +102,9 @@ class UserController {
     }
   }
   async getUserList(req, res, next) {
-    const result =await userService.getUserList()
-    res.send(result)
- }
+    const result = await userService.getUserList();
+    res.send(result);
+  }
   async getUserInfoById(req, res, next) {
     try {
       const { userId } = req.params;
@@ -159,6 +159,7 @@ class UserController {
     try {
       const { userId } = req.params;
       const result = await userService.updateUserStatus(userId);
+      await applyservice.deleteByuserId(userId);
       res.send(result);
     } catch (error) {
       await next(error);
@@ -284,8 +285,16 @@ class UserController {
   async applySteam(req, res, next) {
     const { realName, idCard } = req.body;
     const files = req.files;
+    const front = `${APP_HOST}:${APP_PORT}/apply/applyInfo/${files[0].filename}`;
+    const back = `${APP_HOST}:${APP_PORT}/apply/applyInfo/${files[1].filename}`;
     const { id } = req.user;
-    const result = await userService.createApply(realName, idCard, id);
+    const result = await userService.createApply(
+      realName,
+      idCard,
+      id,
+      front,
+      back
+    );
     const { insertId } = result;
     for (const file of files) {
       const { filename, mimetype, size } = file;
@@ -293,6 +302,23 @@ class UserController {
     }
     //2 将所有的文件信息 保存到数据库中
     res.send('上传完成');
+  }
+  async createNew(req, res, next) {
+    const { name, sex, password, nickName, ownSay, birthday } = req.body;
+    const result = await userService.createNew(
+      name,
+      sex,
+      password,
+      nickName,
+      ownSay,
+      birthday
+    );
+    res.send(result);
+  }
+  async deleteByUserId(req, res, next) {
+    const { userId } = req.params;
+    const result = await userService.deleteByUserId(userId);
+    res.send(result);
   }
 }
 module.exports = new UserController();

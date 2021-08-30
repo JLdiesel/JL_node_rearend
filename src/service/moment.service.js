@@ -1,14 +1,15 @@
 const connection = require('../app/database');
 class MomentService {
-  async create(userID, content, title, status) {
+  async create(userID, content, title, status, ezcontent) {
     try {
       const statement =
-        'INSERT INTO `moment` (content,user_id,title,status) VALUES(?,?,?,?);';
+        'INSERT INTO `moment` (content,user_id,title,status,ezcontent) VALUES(?,?,?,?,?);';
       const result = await connection.execute(statement, [
         content,
         userID,
         title,
-        status
+        status,
+        ezcontent
       ]);
 
       return result;
@@ -82,17 +83,25 @@ JSON_OBJECT('id',t.id,'name',t.name)
   WHERE m.id=?
 `;
       const [result] = await connection.execute(statement, [momentId]);
-  console.log(result);
+      console.log(result);
       return result[0];
     } catch (error) {
       return error;
     }
   }
   //更新文章内容
-  async updateById(content, id) {
+  async updateById(content, id, title, ezcontent) {
     try {
-      const statement = `UPDATE moment SET content =? WHERE id =?`;
-      const result = await connection.execute(statement, [content, id]);
+      const statement = `INSERT INTO moment (id,content, ezcontent
+        , title) VALUES
+    (?,?,?,?)
+ON DUPLICATE KEY UPDATE content=VALUES(content), ezcontent=VALUES(ezcontent), title=VALUES(title) `;
+      const result = await connection.execute(statement, [
+        id,
+        content,
+        ezcontent,
+        title
+      ]);
       return result[0];
     } catch (error) {
       return error;
@@ -181,6 +190,28 @@ FROM moment m WHERE status=? LIMIT ?,?`;
         top
       ]);
       return result;
+    } catch (error) {
+      return error;
+    }
+  }
+  async getMomentListB() {
+    const statement = `SELECT JSON_OBJECT("totalCount",COUNT(id),"list",JSON_ARRAYAGG(JSON_OBJECT("id",id,"content",content,"title",title,"createAt",createAt,"updateAt",updateAt,"ezcontent",ezcontent,"picture",picture)) ) data  FROM moment `;
+    const [result] = await connection.execute(statement);
+    return result;
+  }
+  async updateByMomentId(content, momentId, title, ezcontent, picture) {
+    try {
+      const statement = `INSERT INTO user (id,content, title, ezcontent,picture) VALUES
+    (?,?,?,?,?)
+ON DUPLICATE KEY UPDATE content=VALUES(content), title=VALUES(title), ezcontent=VALUES(ezcontent), picture=VALUES(picture); `;
+      const [result] = await connection.execute(statement, [
+        momentId,
+        content,
+        title,
+        ezcontent,
+        picture
+      ]);
+      return result[0];
     } catch (error) {
       return error;
     }

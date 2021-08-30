@@ -110,7 +110,7 @@ class FileController {
       //2 将所有的文件信息 保存到数据库中
       for (const file of files) {
         const { filename, mimetype, size } = file;
-        await fileService.createMusic(filename, mimetype, size, id,staticId);
+        await fileService.createMusic(filename, mimetype, size, id, staticId);
       }
       res.send('上传完成');
     } catch (err) {

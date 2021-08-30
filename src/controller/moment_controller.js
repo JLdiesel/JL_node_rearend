@@ -5,33 +5,47 @@ class MomentController {
   async create(req, res, next) {
     try {
       //取出发表的言论和用户ID
+
       const userID = req.user.id;
-      const { content, title, status } = req.body;
+
+      const { content, title, status = 0, ezcontent } = req.body;
       //讲输入信息传入到数据库
       const [result] = await momentService.create(
         userID,
         content,
         title,
-        status
+        status,
+        ezcontent
       );
       const files = req.files;
+      if (files) {
+        const { insertId } = result;
+        //存储一张首页图片到文章详情中
+        const [file] = files;
+        const { filename } = file;
+        const fileUrl = `${APP_HOST}:${APP_PORT}/moment/images/${filename}`;
+        await momentService.updatePictureById(fileUrl, insertId);
+        //2 将所有的文件信息 保存到数据库中
 
-      const { insertId } = result;
-      //存储一张首页图片到文章详情中
-      const [file] = files;
-      const { filename } = file;
-      const fileUrl = `${APP_HOST}:${APP_PORT}/moment/images/${filename}`;
-      await momentService.updatePictureById(fileUrl, insertId);
-      //2 将所有的文件信息 保存到数据库中
-      for (const file of files) {
-        const { filename, mimetype, size } = file;
-        await fileService.createFile(filename, mimetype, size, insertId);
+        for (const file of files) {
+          const { filename, mimetype, size } = file;
+          await fileService.createFile(filename, mimetype, size, insertId);
+        }
       }
+
       res.send({
         id: insertId,
         message: '当前用户发表评论成功',
         code: 200
       });
+    } catch (error) {
+      await next(error);
+    }
+  }
+  async getMomentList(req, res, next) {
+    try {
+      const result = await momentService.getMomentListB();
+      res.send(result);
     } catch (error) {
       await next(error);
     }
@@ -77,14 +91,20 @@ class MomentController {
   async update(req, res, next) {
     try {
       const { momentId } = req.params;
-      const { content } = req.body;
-
-      const result = await momentService.updateById(content, momentId);
+      const { content, title, ezcontent } = req.body;
+      console.log(req.body);
+      const result = await momentService.updateById(
+        content,
+        momentId,
+        title,
+        ezcontent
+      );
       res.send(result);
     } catch (error) {
       await next(error);
     }
   }
+
   async remove(req, res, next) {
     try {
       const { momentId } = req.params;
@@ -151,7 +171,7 @@ class MomentController {
       let fileName2 = `${fileInfo.filename}`;
       if (types.some((item) => item === type)) {
         fileName2 = `${fileInfo.filename}-${type}`;
-      } 
+      }
       var options = {
         root: './uploads/pic',
         dotfiles: 'deny',
