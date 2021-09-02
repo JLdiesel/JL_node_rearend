@@ -39,12 +39,13 @@ class Stream {
     try {
       const { id } = req.user;
       const [file] = req.files;
-      const { name, token, cannalName } = req.body;
+      const { name, token, cannalName, status = 0 } = req.body;
       const result = await streamService.createStream(
         id,
         name,
         token,
-        cannalName
+        cannalName,
+        status
       );
       const { insertId } = result;
       const { filename, mimetype, size } = file;
@@ -83,8 +84,12 @@ class Stream {
     }
   }
   async getStreamList(req, res, next) {
-    const { offset = 0, top = 10 } = req.query;
-    const result = await streamService.getStreamList(offset, top);
+    const { offset = 0, top = 10, status = 0 } = req.query;
+    const result = await streamService.getStreamListBystatus(
+      offset,
+      top,
+      status
+    );
     res.send(result);
   }
 }
