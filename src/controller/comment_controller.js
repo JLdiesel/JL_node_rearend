@@ -97,7 +97,7 @@ class CommentController {
       res.send(result);
     } catch (error) {
       await next(error);
-    }
+    }  
   }
 }
 

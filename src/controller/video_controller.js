@@ -1,5 +1,4 @@
 const fileService = require('../service/file.service');
-const tagService = require('../service/tag_service');
 const videoService = require('../service/video.service');
 const fs = require('fs');
 class VideoController {

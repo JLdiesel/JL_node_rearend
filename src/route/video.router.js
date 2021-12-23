@@ -24,6 +24,9 @@ videoRouter.get('/', getVideoList);
 videoRouter.get('/:videoId/avatar', avatarInfo);
 //获取视频内容
 videoRouter.get('/:videoId/file', videoInfo);
+videoRouter.post('/', createVideo);
+videoRouter.get('/', getVideoList);
+
 
 //通过视频分类查询视频列表
 videoRouter.get('/videoListBystatus/:status', getVideoListBystatus);

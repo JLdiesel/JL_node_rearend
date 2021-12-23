@@ -57,7 +57,7 @@ class FileController {
   async staticmusicById(req, res, next) {
     const { staticId } = req.params;
     const result = await fileService.getStaticMusicById(staticId);
-    const path = `${PP_HOST}:${APP_PORT}/uploads/staticmusic/${result.filename}`;
+    const path = `${APP_HOST}:${APP_PORT}/uploads/staticmusic/${result.filename}`;
     res.send(path);
   }
   async musicInfo(req, res, next) {
@@ -75,7 +75,7 @@ class FileController {
       };
 
       var fileName = `${fileInfo.filename}`;
-
+      console.log(fileName);
       res.sendFile(fileName, options, function (err) {
         if (err) {
           next(err);
